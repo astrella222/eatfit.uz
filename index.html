@@ -1,0 +1,2556 @@
+<!DOCTYPE html>
+<html lang="ru" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EatFit | Питание без диет и срывов</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* ===== CSS RESET & VARIABLES ===== */
+        :root {
+            /* Light theme - свежие, здоровые цвета */
+            --primary-color: #10b981;
+            --primary-dark: #059669;
+            --secondary-color: #3b82f6;
+            --accent-color: #f59e0b;
+            --danger-color: #ef4444;
+            --success-color: #10b981;
+            
+            --bg-color: #f8fafc;
+            --card-bg: #ffffff;
+            --text-color: #1e293b;
+            --text-light: #64748b;
+            
+            --border-color: #e2e8f0;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.03);
+            
+            --glass-bg: rgba(255, 255, 255, 0.85);
+            --glass-border: rgba(255, 255, 255, 0.2);
+            
+            --border-radius: 16px;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            
+            /* Градиенты для здорового питания */
+            --gradient-primary: linear-gradient(135deg, #10b981 0%, #34d399 100%);
+            --gradient-secondary: linear-gradient(135deg, #3b82f6 0%, #60a5fa 100%);
+            --gradient-accent: linear-gradient(135deg, #f59e0b 0%, #fbbf24 100%);
+            --gradient-card: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+        }
+
+        [data-theme="dark"] {
+            /* Dark theme */
+            --primary-color: #10b981;
+            --primary-dark: #34d399;
+            --secondary-color: #60a5fa;
+            --accent-color: #fbbf24;
+            --danger-color: #f87171;
+            --success-color: #34d399;
+            
+            --bg-color: #0f172a;
+            --card-bg: #1e293b;
+            --text-color: #f1f5f9;
+            --text-light: #94a3b8;
+            
+            --border-color: #334155;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -2px rgba(0, 0, 0, 0.2);
+            
+            --glass-bg: rgba(30, 41, 59, 0.85);
+            --gradient-card: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            font-size: 16px;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--bg-color);
+            transition: var(--transition);
+            overflow-x: hidden;
+        }
+
+        /* ===== MOBILE FIRST СТИЛИ ===== */
+        .container {
+            width: 100%;
+            padding: 0 20px;
+            margin: 0 auto;
+        }
+
+        /* Шапка и навигация */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            padding: 20px 0;
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--glass-border);
+            transition: var(--transition);
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-icon {
+            font-size: 2rem;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .logo-text {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            text-decoration: none;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .logo-year {
+            color: var(--accent-color);
+            font-weight: 600;
+        }
+
+        .nav-menu {
+            display: none;
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .theme-toggle {
+            background: none;
+            border: none;
+            color: var(--text-color);
+            font-size: 1.2rem;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 50%;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .theme-toggle:hover {
+            background: var(--card-bg);
+            transform: rotate(15deg);
+        }
+
+        .theme-toggle::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 5px;
+            height: 5px;
+            background: rgba(16, 185, 129, 0.4);
+            opacity: 0;
+            border-radius: 100%;
+            transform: scale(1, 1) translate(-50%);
+            transform-origin: 50% 50%;
+        }
+
+        .theme-toggle:focus:not(:active)::after {
+            animation: ripple 1s ease-out;
+        }
+
+        @keyframes ripple {
+            0% {
+                transform: scale(0, 0);
+                opacity: 0.5;
+            }
+            100% {
+                transform: scale(20, 20);
+                opacity: 0;
+            }
+        }
+
+        .mobile-menu-btn {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 8px;
+            transition: var(--transition);
+        }
+
+        .mobile-menu-btn:hover span {
+            background: var(--primary-color);
+        }
+
+        .mobile-menu-btn span {
+            width: 24px;
+            height: 2px;
+            background: var(--text-color);
+            transition: var(--transition);
+            transform-origin: left center;
+        }
+
+        .mobile-menu-btn.active span:nth-child(1) {
+            transform: rotate(45deg);
+        }
+        .mobile-menu-btn.active span:nth-child(2) {
+            opacity: 0;
+        }
+        .mobile-menu-btn.active span:nth-child(3) {
+            transform: rotate(-45deg);
+        }
+
+        /* Улучшенные анимации кнопок */
+        .primary-btn {
+            background: var(--gradient-primary);
+            color: white;
+            border: none;
+            padding: 14px 28px;
+            border-radius: var(--border-radius);
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .primary-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #059669 0%, #10b981 100%);
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .primary-btn:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 15px 25px -5px rgba(16, 185, 129, 0.3);
+        }
+
+        .primary-btn:hover::before {
+            opacity: 1;
+        }
+
+        .primary-btn:active {
+            transform: translateY(-1px) scale(0.98);
+            transition: transform 0.1s ease;
+        }
+
+        .primary-btn i {
+            transition: transform 0.3s ease;
+        }
+
+        .primary-btn:hover i {
+            transform: translateX(3px);
+        }
+
+        /* Кнопка с пульсацией */
+        .pulse-btn {
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.4);
+            }
+            70% {
+                box-shadow: 0 0 0 10px rgba(16, 185, 129, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(16, 185, 129, 0);
+            }
+        }
+
+        /* Вторая кнопка */
+        .secondary-btn {
+            background: var(--card-bg);
+            color: var(--text-color);
+            border: 2px solid var(--primary-color);
+            padding: 14px 28px;
+            border-radius: var(--border-radius);
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .secondary-btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: var(--primary-color);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+            z-index: -1;
+        }
+
+        .secondary-btn:hover {
+            color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px -5px rgba(16, 185, 129, 0.2);
+        }
+
+        .secondary-btn:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        /* Основной контент */
+        main {
+            margin-top: 80px;
+        }
+
+        .hero-section {
+            padding: 80px 0;
+            background: var(--gradient-card);
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Анимированные элементы на фоне */
+        .floating-elements {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .floating-element {
+            position: absolute;
+            font-size: 2rem;
+            opacity: 0.1;
+            animation: floatAround 20s linear infinite;
+        }
+
+        .floating-element:nth-child(1) { top: 10%; left: 5%; animation-delay: 0s; }
+        .floating-element:nth-child(2) { top: 20%; right: 10%; animation-delay: -5s; }
+        .floating-element:nth-child(3) { bottom: 30%; left: 15%; animation-delay: -10s; }
+        .floating-element:nth-child(4) { bottom: 20%; right: 20%; animation-delay: -15s; }
+
+        @keyframes floatAround {
+            0% { transform: translate(0, 0) rotate(0deg); }
+            25% { transform: translate(30px, 30px) rotate(90deg); }
+            50% { transform: translate(0, 60px) rotate(180deg); }
+            75% { transform: translate(-30px, 30px) rotate(270deg); }
+            100% { transform: translate(0, 0) rotate(360deg); }
+        }
+
+        .hero-content {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            background: var(--gradient-primary);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            margin-bottom: 20px;
+            font-weight: 600;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+
+        .hero-title {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            line-height: 1.2;
+            animation: slideUp 0.8s ease-out;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .accent {
+            color: var(--primary-color);
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .hero-subtitle {
+            font-size: 1.1rem;
+            color: var(--text-light);
+            margin-bottom: 30px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            animation: slideUp 0.8s ease-out 0.2s both;
+        }
+
+        .hero-actions {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+            animation: slideUp 0.8s ease-out 0.4s both;
+        }
+
+        .hero-stats {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+            animation: slideUp 0.8s ease-out 0.6s both;
+        }
+
+        .stat-item {
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .stat-item:hover {
+            transform: scale(1.1);
+        }
+
+        .stat-number {
+            display: block;
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            transition: all 0.3s ease;
+        }
+
+        .stat-label {
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+
+        /* Секции */
+        .section {
+            padding: 80px 0;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            margin-bottom: 15px;
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 3px;
+            background: var(--gradient-primary);
+            border-radius: 2px;
+        }
+
+        .section-subtitle {
+            color: var(--text-light);
+            max-width: 600px;
+            margin: 20px auto 0;
+        }
+
+        /* Карточки подходов */
+        .approaches-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        @media (min-width: 768px) {
+            .approaches-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .approaches-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        .approach-card {
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            padding: 30px;
+            box-shadow: var(--shadow);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border: 1px solid var(--border-color);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .approach-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: var(--gradient-primary);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.4s ease;
+        }
+
+        .approach-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .approach-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .approach-icon {
+            width: 60px;
+            height: 60px;
+            background: var(--gradient-primary);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            color: white;
+            font-size: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .approach-card:hover .approach-icon {
+            transform: rotateY(180deg);
+        }
+
+        .approach-card h3 {
+            margin-bottom: 15px;
+            color: var(--primary-color);
+        }
+
+        .approach-card p {
+            color: var(--text-light);
+            margin-bottom: 20px;
+        }
+
+        .approach-list {
+            list-style: none;
+        }
+
+        .approach-list li {
+            margin-bottom: 8px;
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+            transition: transform 0.3s ease;
+        }
+
+        .approach-list li:hover {
+            transform: translateX(5px);
+        }
+
+        .approach-list li i {
+            color: var(--success-color);
+            margin-top: 2px;
+        }
+
+        /* Принципы */
+        .principles-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .principle-card {
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            padding: 25px;
+            box-shadow: var(--shadow);
+            transition: all 0.3s ease;
+            border-left: 4px solid var(--primary-color);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .principle-card:hover {
+            transform: translateX(10px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .principle-card h3 {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .principle-card h3 i {
+            color: var(--primary-color);
+        }
+
+        /* Форма */
+        .contact-section {
+            background: var(--gradient-card);
+        }
+
+        .contact-form {
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            padding: 30px;
+            box-shadow: var(--shadow);
+            max-width: 600px;
+            margin: 0 auto;
+            transform-style: preserve-3d;
+            perspective: 1000px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            transition: transform 0.3s ease;
+        }
+
+        .form-group:hover {
+            transform: translateZ(10px);
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--text-color);
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            background: var(--bg-color);
+            color: var(--text-color);
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+            transform: translateY(-2px);
+        }
+
+        /* Футер */
+        footer {
+            background: var(--card-bg);
+            border-top: 1px solid var(--border-color);
+            padding: 60px 0 30px;
+            position: relative;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .footer-links {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        @media (min-width: 768px) {
+            .footer-links {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+
+        .footer-column h4 {
+            margin-bottom: 20px;
+            color: var(--primary-color);
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .footer-column h4::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 40px;
+            height: 2px;
+            background: var(--gradient-primary);
+        }
+
+        .footer-column a {
+            display: block;
+            color: var(--text-light);
+            text-decoration: none;
+            margin-bottom: 10px;
+            transition: all 0.3s ease;
+            padding: 5px 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .footer-column a::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: -100%;
+            width: 100%;
+            height: 1px;
+            background: var(--gradient-primary);
+            transition: left 0.3s ease;
+        }
+
+        .footer-column a:hover {
+            color: var(--primary-color);
+            transform: translateX(5px);
+        }
+
+        .footer-column a:hover::before {
+            left: 0;
+        }
+
+        .footer-bottom {
+            margin-top: 50px;
+            padding-top: 30px;
+            border-top: 1px solid var(--border-color);
+            text-align: center;
+            color: var(--text-light);
+        }
+
+        /* Мобильное меню */
+        .mobile-menu {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--bg-color);
+            z-index: 9999;
+            transform: translateX(-100%);
+            transition: transform 0.5s cubic-bezier(0.77, 0.2, 0.05, 1.0);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .mobile-menu.active {
+            transform: translateX(0);
+        }
+
+        .mobile-menu-header {
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border-color);
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+        }
+
+        .mobile-menu-content {
+            padding: 30px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .mobile-item {
+            display: block;
+            padding: 20px 0;
+            font-size: 1.5rem;
+            color: var(--text-color);
+            text-decoration: none;
+            border-bottom: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .mobile-item::before {
+            content: '';
+            position: absolute;
+            left: -100%;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--gradient-primary);
+            transition: left 0.3s ease;
+            z-index: -1;
+        }
+
+        .mobile-item:hover {
+            color: white;
+            padding-left: 20px;
+        }
+
+        .mobile-item:hover::before {
+            left: 0;
+        }
+
+        /* Уведомления */
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 25px;
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-lg);
+            transform: translateX(150%);
+            transition: transform 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            z-index: 99999;
+            border-left: 4px solid var(--success-color);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .notification.show {
+            transform: translateX(0);
+        }
+
+        .notification i {
+            font-size: 1.2rem;
+            color: var(--success-color);
+        }
+
+        /* Кнопка наверх */
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            background: var(--gradient-primary);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            opacity: 0;
+            transform: translateY(20px) scale(0.8);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            z-index: 999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+        }
+
+        .back-to-top:hover {
+            transform: translateY(-5px) scale(1.1);
+            box-shadow: 0 10px 25px rgba(16, 185, 129, 0.4);
+        }
+
+        .back-to-top.visible {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+
+        /* Чат */
+        .chat-widget {
+            position: fixed;
+            bottom: 100px;
+            right: 30px;
+            width: 350px;
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-lg);
+            transform: translateY(20px) scale(0.9);
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            z-index: 999;
+            overflow: hidden;
+        }
+
+        .chat-widget.active {
+            transform: translateY(0) scale(1);
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .chat-button {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background: var(--gradient-primary);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            z-index: 999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            box-shadow: 0 10px 25px rgba(16, 185, 129, 0.3);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            animation: pulse-chat 3s infinite;
+        }
+
+        @keyframes pulse-chat {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        .chat-button:hover {
+            transform: rotate(15deg) scale(1.1);
+            box-shadow: 0 15px 30px rgba(16, 185, 129, 0.4);
+        }
+
+        /* Админ панель в футере */
+        .admin-section {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px dashed var(--border-color);
+        }
+
+        .admin-toggle-btn {
+            background: var(--gradient-primary);
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            width: 100%;
+            justify-content: center;
+            margin-top: 10px;
+        }
+
+        .admin-toggle-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(16, 185, 129, 0.3);
+        }
+
+        .admin-panel-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 10001;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .admin-panel-modal.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        .admin-panel-content {
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            padding: 30px;
+            max-width: 800px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: var(--shadow-lg);
+            transform: translateY(-20px);
+            transition: transform 0.3s ease;
+        }
+
+        .admin-panel-modal.active .admin-panel-content {
+            transform: translateY(0);
+        }
+
+        .admin-panel-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        .admin-panel-header h3 {
+            color: var(--primary-color);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .close-admin-panel {
+            background: none;
+            border: none;
+            color: var(--text-light);
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            padding: 5px;
+            border-radius: 5px;
+        }
+
+        .close-admin-panel:hover {
+            color: var(--danger-color);
+            background: rgba(239, 68, 68, 0.1);
+            transform: rotate(90deg);
+        }
+
+        .admin-panel-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+        }
+
+        @media (min-width: 768px) {
+            .admin-panel-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        .admin-panel-card {
+            background: var(--bg-color);
+            border-radius: var(--border-radius);
+            padding: 20px;
+            border: 1px solid var(--border-color);
+        }
+
+        .admin-panel-card h4 {
+            margin-bottom: 15px;
+            color: var(--text-color);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .admin-form-group {
+            margin-bottom: 15px;
+        }
+
+        .admin-form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-size: 0.9rem;
+            color: var(--text-light);
+        }
+
+        .admin-form-group input,
+        .admin-form-group textarea,
+        .admin-form-group select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            background: var(--card-bg);
+            color: var(--text-color);
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        .admin-form-group input:focus,
+        .admin-form-group textarea:focus,
+        .admin-form-group select:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+        }
+
+        .admin-btn {
+            background: var(--gradient-primary);
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            margin-right: 10px;
+            margin-bottom: 10px;
+        }
+
+        .admin-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(16, 185, 129, 0.3);
+        }
+
+        .admin-btn.danger {
+            background: var(--danger-color);
+        }
+
+        .admin-btn.danger:hover {
+            box-shadow: 0 5px 15px rgba(239, 68, 68, 0.3);
+        }
+
+        .admin-stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .admin-stat {
+            text-align: center;
+            padding: 15px;
+            background: var(--card-bg);
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+        }
+
+        .admin-stat-number {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 5px;
+        }
+
+        .admin-stat-label {
+            font-size: 0.8rem;
+            color: var(--text-light);
+        }
+
+        /* Модальное окно входа в админку */
+        .admin-login-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 10002;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .admin-login-modal.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        .admin-login-content {
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            padding: 40px;
+            max-width: 400px;
+            width: 100%;
+            text-align: center;
+            box-shadow: var(--shadow-lg);
+            transform: translateY(-20px);
+            transition: transform 0.3s ease;
+        }
+
+        .admin-login-modal.active .admin-login-content {
+            transform: translateY(0);
+        }
+
+        .admin-login-icon {
+            font-size: 3rem;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            animation: bounce 2s infinite;
+        }
+
+        .password-input-container {
+            position: relative;
+            margin: 20px 0;
+        }
+
+        .password-toggle-btn {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: var(--text-light);
+            cursor: pointer;
+            padding: 5px;
+        }
+
+        /* Медиа запросы */
+        @media (min-width: 768px) {
+            .hero-title {
+                font-size: 3rem;
+            }
+            
+            .nav-menu {
+                display: flex;
+                gap: 30px;
+                align-items: center;
+            }
+            
+            .nav-link {
+                color: var(--text-color);
+                text-decoration: none;
+                font-weight: 500;
+                transition: var(--transition);
+                position: relative;
+                padding: 5px 0;
+            }
+            
+            .nav-link::after {
+                content: '';
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                width: 0;
+                height: 2px;
+                background: var(--gradient-primary);
+                transition: width 0.3s ease;
+            }
+            
+            .nav-link:hover::after {
+                width: 100%;
+            }
+            
+            .nav-link:hover {
+                color: var(--primary-color);
+            }
+            
+            .mobile-menu-btn {
+                display: none;
+            }
+            
+            .hero-actions {
+                flex-wrap: nowrap;
+            }
+            
+            .container {
+                max-width: 1200px;
+                padding: 0 40px;
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .hero-title {
+                font-size: 3.5rem;
+            }
+            
+            .section-title {
+                font-size: 2.5rem;
+            }
+        }
+
+        @media (max-width: 767px) {
+            .footer-links {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .admin-panel-content {
+                padding: 20px;
+            }
+            
+            .chat-widget {
+                width: calc(100% - 40px);
+                right: 20px;
+            }
+        }
+
+        /* Анимации */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .animate-fadeIn {
+            opacity: 0;
+            animation: fadeIn 0.6s ease forwards;
+        }
+
+        .delay-100 { animation-delay: 0.1s; }
+        .delay-200 { animation-delay: 0.2s; }
+        .delay-300 { animation-delay: 0.3s; }
+        .delay-400 { animation-delay: 0.4s; }
+        .delay-500 { animation-delay: 0.5s; }
+
+        /* Эффект параллакса */
+        .parallax-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            will-change: transform;
+            z-index: -1;
+        }
+    </style>
+</head>
+<body>
+    <!-- Лоадер -->
+    <div id="loader" class="loader">
+        <div class="loader-content">
+            <div class="logo-loader" style="text-align: center;">
+                <span class="logo-icon" style="font-size: 4rem; animation: float 3s ease-in-out infinite;">🥗</span>
+                <h2 style="margin-top: 20px; color: var(--primary-color); animation: slideUp 1s ease-out;">EatFit</h2>
+                <p style="color: var(--text-light); margin-top: 10px; animation: slideUp 1s ease-out 0.3s both;">Загрузка здоровых привычек...</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Модальное окно входа в админку -->
+    <div class="admin-login-modal" id="adminLoginModal">
+        <div class="admin-login-content">
+            <div class="admin-login-icon">
+                <i class="fas fa-user-shield"></i>
+            </div>
+            <h3>Доступ к админ-панели</h3>
+            <p>Введите пароль администратора</p>
+            
+            <div class="password-input-container">
+                <input type="password" id="adminPassword" placeholder="Пароль" style="width: 100%; padding: 12px; border: 1px solid var(--border-color); border-radius: 8px; background: var(--bg-color); color: var(--text-color);">
+                <button class="password-toggle-btn" onclick="togglePasswordVisibility()">
+                    <i class="fas fa-eye"></i>
+                </button>
+            </div>
+            
+            <button class="primary-btn" onclick="checkAdminPassword()" style="width: 100%; margin-top: 20px;">
+                <i class="fas fa-sign-in-alt"></i> Войти
+            </button>
+            
+            <p style="margin-top: 15px; font-size: 0.8rem; color: var(--text-light);">
+                <i class="fas fa-info-circle"></i> Демо-пароль: admin2024
+            </p>
+            
+            <button class="secondary-btn" onclick="closeAdminLogin()" style="width: 100%; margin-top: 10px;">
+                <i class="fas fa-times"></i> Отмена
+            </button>
+        </div>
+    </div>
+
+    <!-- Админ панель -->
+    <div class="admin-panel-modal" id="adminPanelModal">
+        <div class="admin-panel-content">
+            <div class="admin-panel-header">
+                <h3><i class="fas fa-user-shield"></i> Админ-панель EatFit</h3>
+                <button class="close-admin-panel" onclick="closeAdminPanel()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <div class="admin-panel-grid">
+                <div class="admin-panel-card">
+                    <h4><i class="fas fa-edit"></i> Редактирование контента</h4>
+                    
+                    <div class="admin-form-group">
+                        <label>Заголовок сайта:</label>
+                        <input type="text" id="editSiteTitle" placeholder="EatFit" value="EatFit">
+                    </div>
+                    
+                    <div class="admin-form-group">
+                        <label>Подзаголовок героя:</label>
+                        <textarea id="editHeroSubtitle" rows="3">Похудение или набор веса через понимание своего тела, формирование здоровых привычек и индивидуальный подход. Без жестких ограничений и чувства вины.</textarea>
+                    </div>
+                    
+                    <div class="admin-form-group">
+                        <label>Статистика (клиенты):</label>
+                        <input type="number" id="editStatClients" value="2500" min="0">
+                    </div>
+                    
+                    <div class="admin-form-group">
+                        <label>Статистика (успех):</label>
+                        <input type="number" id="editStatSuccess" value="96" min="0" max="100">
+                    </div>
+                    
+                    <div class="admin-form-group">
+                        <label>Цвет темы:</label>
+                        <select id="editThemeColor">
+                            <option value="green">Зеленый (по умолчанию)</option>
+                            <option value="blue">Синий</option>
+                            <option value="orange">Оранжевый</option>
+                            <option value="purple">Фиолетовый</option>
+                        </select>
+                    </div>
+                    
+                    <button class="admin-btn" onclick="saveAdminChanges()">
+                        <i class="fas fa-save"></i> Сохранить изменения
+                    </button>
+                    <button class="admin-btn" onclick="resetAdminChanges()">
+                        <i class="fas fa-undo"></i> Сбросить
+                    </button>
+                </div>
+                
+                <div class="admin-panel-card">
+                    <h4><i class="fas fa-chart-line"></i> Статистика сайта</h4>
+                    
+                    <div class="admin-stats-grid">
+                        <div class="admin-stat">
+                            <div class="admin-stat-number" id="adminVisitors">1,247</div>
+                            <div class="admin-stat-label">Посетители</div>
+                        </div>
+                        <div class="admin-stat">
+                            <div class="admin-stat-number" id="adminLeads">84</div>
+                            <div class="admin-stat-label">Заявки</div>
+                        </div>
+                        <div class="admin-stat">
+                            <div class="admin-stat-number" id="adminConversion">6.7%</div>
+                            <div class="admin-stat-label">Конверсия</div>
+                        </div>
+                        <div class="admin-stat">
+                            <div class="admin-stat-number" id="adminChats">23</div>
+                            <div class="admin-stat-label">Чаты</div>
+                        </div>
+                    </div>
+                    
+                    <div style="margin-top: 20px;">
+                        <button class="admin-btn" onclick="exportData()">
+                            <i class="fas fa-download"></i> Экспорт данных
+                        </button>
+                        <button class="admin-btn danger" onclick="clearData()">
+                            <i class="fas fa-trash"></i> Очистить статистику
+                        </button>
+                    </div>
+                    
+                    <div class="admin-form-group" style="margin-top: 20px;">
+                        <label>Сменить пароль админа:</label>
+                        <input type="password" id="newAdminPassword" placeholder="Новый пароль">
+                        <button class="admin-btn" onclick="changePassword()" style="margin-top: 10px;">
+                            <i class="fas fa-key"></i> Обновить пароль
+                        </button>
+                    </div>
+                    
+                    <button class="admin-btn danger" onclick="logoutAdmin()" style="width: 100%; margin-top: 10px;">
+                        <i class="fas fa-sign-out-alt"></i> Выйти из админ-панели
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Навигация -->
+    <header>
+        <div class="nav-container">
+            <div class="nav-logo">
+                <span class="logo-icon">🥗</span>
+                <a href="#home" class="logo-text">EatFit</a>
+            </div>
+            
+            <nav class="nav-menu">
+                <a href="#home" class="nav-link">Главная</a>
+                <a href="#approaches" class="nav-link">Наш подход</a>
+                <a href="#principles" class="nav-link">Принципы</a>
+                <a href="#results" class="nav-link">Результаты</a>
+                <a href="#contact" class="nav-link">Консультация</a>
+            </nav>
+            
+            <div class="nav-actions">
+                <button class="theme-toggle" id="themeToggle">
+                    <i class="fas fa-moon"></i>
+                </button>
+                <button class="mobile-menu-btn" id="mobileMenuBtn">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Мобильное меню -->
+    <div class="mobile-menu" id="mobileMenu">
+        <div class="mobile-menu-header">
+            <div class="nav-logo">
+                <span class="logo-icon">🥗</span>
+                <span class="logo-text">EatFit</span>
+            </div>
+            <button class="theme-toggle" id="closeMobileMenu">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="mobile-menu-content">
+            <a href="#home" class="mobile-item">Главная</a>
+            <a href="#approaches" class="mobile-item">Наш подход</a>
+            <a href="#principles" class="mobile-item">Принципы</a>
+            <a href="#results" class="mobile-item">Результаты</a>
+            <a href="#contact" class="mobile-item">Консультация</a>
+            <a href="#" class="mobile-item" onclick="openAdminLogin()">
+                <i class="fas fa-user-shield"></i> Админ-панель
+            </a>
+        </div>
+    </div>
+
+    <!-- Основной контент -->
+    <main>
+        <!-- Герой секция -->
+        <section id="home" class="hero-section">
+            <div class="floating-elements">
+                <div class="floating-element">🥑</div>
+                <div class="floating-element">🍎</div>
+                <div class="floating-element">🥦</div>
+                <div class="floating-element">🥬</div>
+            </div>
+            <div class="container">
+                <div class="hero-content">
+                    <div class="hero-badge pulse-btn">
+                        Без диет и срывов
+                    </div>
+                    <h1 class="hero-title" id="mainTitle">
+                        Питание, которое <span class="accent">работает</span> на вас
+                    </h1>
+                    <p class="hero-subtitle" id="heroSubtitle">
+                        Похудение или набор веса через понимание своего тела, формирование здоровых привычек и индивидуальный подход. Без жестких ограничений и чувства вины.
+                    </p>
+                    <div class="hero-actions">
+                        <a href="#contact" class="primary-btn pulse-btn">
+                            <i class="fas fa-calendar-check"></i> Бесплатная консультация
+                        </a>
+                        <a href="#approaches" class="secondary-btn">
+                            <i class="fas fa-book-open"></i> Узнать о подходе
+                        </a>
+                    </div>
+                    <div class="hero-stats">
+                        <div class="stat-item">
+                            <span class="stat-number" id="statClients">2,500+</span>
+                            <span class="stat-label">Довольных клиентов</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number" id="statSuccess">96%</span>
+                            <span class="stat-label">Успешных результатов</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">0</span>
+                            <span class="stat-label">Жестких диет</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Наш подход -->
+        <section id="approaches" class="section">
+            <div class="container">
+                <div class="section-header animate-fadeIn">
+                    <h2 class="section-title">Наш <span class="accent">подход</span></h2>
+                    <p class="section-subtitle">Три ключевых принципа, которые отличают нас от диет</p>
+                </div>
+                <div class="approaches-grid">
+                    <div class="approach-card animate-fadeIn">
+                        <div class="approach-icon">
+                            <i class="fas fa-brain"></i>
+                        </div>
+                        <h3>Понимание, а не ограничение</h3>
+                        <p>Учимся слушать свое тело и понимать его сигналы, вместо следования жестким правилам.</p>
+                        <ul class="approach-list">
+                            <li><i class="fas fa-check"></i> Работа с пищевым поведением</li>
+                            <li><i class="fas fa-check"></i> Осознанное питание</li>
+                            <li><i class="fas fa-check"></i> Работа с причинами переедания</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="approach-card animate-fadeIn delay-100">
+                        <div class="approach-icon">
+                            <i class="fas fa-user-cog"></i>
+                        </div>
+                        <h3>Индивидуальность</h3>
+                        <p>Каждый человек уникален - ваш план питания должен соответствовать вашему образу жизни, предпочтениям и целям.</p>
+                        <ul class="approach-list">
+                            <li><i class="fas fa-check"></i> Личные пищевые предпочтения</li>
+                            <li><i class="fas fa-check"></i> Учет графика и активности</li>
+                            <li><i class="fas fa-check"></i> Поддержка на каждом этапе</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="approach-card animate-fadeIn delay-200">
+                        <div class="approach-icon">
+                            <i class="fas fa-seedling"></i>
+                        </div>
+                        <h3>Устойчивые привычки</h3>
+                        <p>Формируем привычки, которые останутся с вами на всю жизнь, а не дают временный результат.</p>
+                        <ul class="approach-list">
+                            <li><i class="fas fa-check"></i> Постепенные изменения</li>
+                            <li><i class="fas fa-check"></i> Работа со срывами</li>
+                            <li><i class="fas fa-check"></i> Долгосрочный результат</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Принципы -->
+        <section id="principles" class="section" style="background: var(--gradient-card);">
+            <div class="container">
+                <div class="section-header animate-fadeIn">
+                    <h2 class="section-title">Наши <span class="accent">принципы</span></h2>
+                    <p class="section-subtitle">Основные правила, которые делают наш подход эффективным</p>
+                </div>
+                <div class="principles-grid">
+                    <div class="principle-card animate-fadeIn">
+                        <h3><i class="fas fa-ban"></i> Никаких запретов</h3>
+                        <p>Мы не делим еду на "хорошую" и "плохую". Учимся включать любимые продукты в рацион без чувства вины.</p>
+                    </div>
+                    
+                    <div class="principle-card animate-fadeIn delay-100">
+                        <h3><i class="fas fa-balance-scale"></i> Гибкость вместо жесткости</h3>
+                        <p>План питания адаптируется под вашу жизнь: праздники, командировки, стрессовые периоды.</p>
+                    </div>
+                    
+                    <div class="principle-card animate-fadeIn delay-200">
+                        <h3><i class="fas fa-heart"></i> Здоровье прежде всего</h3>
+                        <p>Фокус на улучшении здоровья, энергии и самочувствия, а не только на цифре на весах.</p>
+                    </div>
+                    
+                    <div class="principle-card animate-fadeIn delay-300">
+                        <h3><i class="fas fa-graduation-cap"></i> Образование</h3>
+                        <p>Учим вас понимать питание, чтобы вы могли самостоятельно принимать правильные решения в будущем.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Результаты -->
+        <section id="results" class="section">
+            <div class="container">
+                <div class="section-header animate-fadeIn">
+                    <h2 class="section-title">Каких <span class="accent">результатов</span> ждать</h2>
+                    <p class="section-subtitle">Что изменится в вашей жизни с нашим подходом</p>
+                </div>
+                <div class="approaches-grid">
+                    <div class="approach-card">
+                        <div class="approach-icon" style="background: var(--gradient-secondary);">
+                            <i class="fas fa-weight"></i>
+                        </div>
+                        <h3>Достижение весовых целей</h3>
+                        <p>Похудение или набор веса комфортным темпом без резких скачков и возврата веса.</p>
+                    </div>
+                    
+                    <div class="approach-card">
+                        <div class="approach-icon" style="background: var(--gradient-accent);">
+                            <i class="fas fa-bolt"></i>
+                        </div>
+                        <h3>Больше энергии</h3>
+                        <p>Улучшение качества сна, повышение продуктивности и стабильный уровень энергии в течение дня.</p>
+                    </div>
+                    
+                    <div class="approach-card">
+                        <div class="approach-icon" style="background: var(--gradient-secondary);">
+                            <i class="fas fa-smile"></i>
+                        </div>
+                        <h3>Здоровые отношения с едой</h3>
+                        <p>Избавление от чувства вины после еды, компульсивного переедания и пищевой тревожности.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Консультация -->
+        <section id="contact" class="section contact-section">
+            <div class="container">
+                <div class="section-header animate-fadeIn">
+                    <h2 class="section-title">Готовы <span class="accent">начать</span>?</h2>
+                    <p class="section-subtitle">Запишитесь на бесплатную консультацию, чтобы узнать, подходит ли вам наш подход</p>
+                </div>
+                
+                <form id="consultationForm" class="contact-form animate-fadeIn">
+                    <div class="form-group">
+                        <label for="name"><i class="fas fa-user"></i> Ваше имя</label>
+                        <input type="text" id="name" name="name" placeholder="Как к вам обращаться?" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email"><i class="fas fa-envelope"></i> Email</label>
+                        <input type="email" id="email" name="email" placeholder="example@mail.com" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="phone"><i class="fas fa-phone"></i> Телефон</label>
+                        <input type="tel" id="phone" name="phone" placeholder="+998 95 628 80 00">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="goal"><i class="fas fa-bullseye"></i> Ваша основная цель</label>
+                        <select id="goal" name="goal" required>
+                            <option value="">Выберите цель</option>
+                            <option value="weight-loss">Похудеть комфортно</option>
+                            <option value="weight-gain">Набрать здоровый вес</option>
+                            <option value="habits">Сформировать привычки</option>
+                            <option value="health">Улучшить здоровье</option>
+                            <option value="relationship">Наладить отношения с едой</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="message"><i class="fas fa-comment"></i> Что вас беспокоит в питании?</label>
+                        <textarea id="message" name="message" rows="4" placeholder="Расскажите о своих сложностях с питанием, диетах, которые не сработали..."></textarea>
+                    </div>
+                    
+                    <button type="submit" class="primary-btn" style="width: 100%;">
+                        <i class="fas fa-paper-plane"></i> Записаться на консультацию
+                    </button>
+                    
+                    <p style="text-align: center; margin-top: 20px; color: var(--text-light); font-size: 0.9rem;">
+                        <i class="fas fa-shield-alt"></i> Мы не передаем ваши данные третьим лицам
+                    </p>
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <!-- Футер -->
+    <footer>
+        <div class="footer-content">
+            <div style="text-align: center; margin-bottom: 40px;">
+                <div class="nav-logo" style="justify-content: center; margin-bottom: 20px;">
+                    <span class="logo-icon">🥗</span>
+                    <span class="logo-text">EatFit</span>
+                </div>
+                <p style="color: var(--text-light); max-width: 600px; margin: 0 auto;">
+                    Питание без диет и срывов. Помогаем похудеть или набрать вес безопасно, через понимание питания, индивидуальный подход и формирование привычек.
+                </p>
+            </div>
+            
+            <div class="footer-links">
+                <div class="footer-column">
+                    <h4>EatFit</h4>
+                    <a href="#home">Главная</a>
+                    <a href="#approaches">Наш подход</a>
+                    <a href="#principles">Принципы</a>
+                    <a href="#results">Результаты</a>
+                    <a href="#contact">Консультация</a>
+                </div>
+                
+                <div class="footer-column">
+                    <h4>Контакты</h4>
+                    <a href="mailto:astrella718@gmail.com"><i class="fas fa-envelope"></i> astrella718@gmail.com</a>
+                    <a href="tel:+998956288000"><i class="fas fa-phone"></i> +998 95 628 80 00</a>
+                    <p style="color: var(--text-light); margin-top: 10px;">
+                        <i class="fas fa-clock"></i> Пн-Пт: 9:00-20:00
+                    </p>
+                </div>
+                
+                <div class="footer-column">
+                    <h4>Соцсети</h4>
+                    <a href="#"><i class="fab fa-telegram"></i> Telegram</a>
+                    <a href="#"><i class="fab fa-whatsapp"></i> WhatsApp</a>
+                    <a href="#"><i class="fab fa-instagram"></i> Instagram</a>
+                    <a href="#"><i class="fab fa-vk"></i> ВКонтакте</a>
+                </div>
+                
+                <div class="footer-column">
+                    <h4>Администрирование</h4>
+                    <p style="color: var(--text-light); font-size: 0.9rem; margin-bottom: 15px;">
+                        Управление контентом и статистикой сайта
+                    </p>
+                    <button class="admin-toggle-btn" onclick="openAdminLogin()">
+                        <i class="fas fa-user-shield"></i> Открыть админ-панель
+                    </button>
+                    
+                    <div class="admin-section">
+                        <p style="font-size: 0.8rem; color: var(--text-light); margin-top: 10px;">
+                            <i class="fas fa-info-circle"></i> Статус: <span id="adminStatus">Не авторизован</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; <span id="currentYear">2024</span> EatFit. Все права защищены.</p>
+                <p style="margin-top: 10px; font-size: 0.9rem; color: var(--text-light);">
+                    <a href="#" style="color: var(--text-light);">Политика конфиденциальности</a> | 
+                    <a href="#" style="color: var(--text-light);">Договор-оферта</a>
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Кнопка наверх -->
+    <button class="back-to-top" id="backToTop">
+        <i class="fas fa-chevron-up"></i>
+    </button>
+
+    <!-- Чат -->
+    <div class="chat-widget" id="chatWidget">
+        <div class="chat-header" style="padding: 15px; border-bottom: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center; background: var(--gradient-primary); color: white;">
+            <h3 style="margin: 0; display: flex; align-items: center; gap: 10px;">
+                <i class="fas fa-comment-dots"></i>
+                Есть вопросы?
+            </h3>
+            <button id="closeChat" style="background: none; border: none; color: white; cursor: pointer; font-size: 1.2rem;">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="chat-body" id="chatBody" style="padding: 15px; height: 300px; overflow-y: auto;">
+            <div class="message" style="background: var(--bg-color); padding: 10px; border-radius: 10px; margin-bottom: 10px; max-width: 80%;">
+                <p style="margin: 0;">Привет! Я виртуальный помощник EatFit. Чем могу помочь?</p>
+                <p style="margin: 5px 0 0 0; font-size: 0.8rem; color: var(--text-light);">Только что</p>
+            </div>
+        </div>
+        <div class="chat-input" style="padding: 15px; border-top: 1px solid var(--border-color); display: flex;">
+            <input type="text" id="chatInput" placeholder="Введите сообщение..." style="flex: 1; padding: 12px; border: 1px solid var(--border-color); border-radius: 8px; background: var(--bg-color); color: var(--text-color);">
+            <button id="sendChat" class="primary-btn" style="margin-left: 10px; padding: 12px 20px;">
+                <i class="fas fa-paper-plane"></i>
+            </button>
+        </div>
+    </div>
+
+    <button class="chat-button" id="openChat">
+        <i class="fas fa-comment-dots"></i>
+    </button>
+
+    <!-- Уведомление -->
+    <div class="notification" id="notification">
+        <i class="fas fa-check-circle"></i>
+        <span id="notificationText">Сообщение отправлено!</span>
+    </div>
+
+    <script>
+        // ===== ПЕРЕМЕННЫЕ И КОНСТАНТЫ =====
+        const ADMIN_PASSWORD = "admin2024";
+        const SITE_DATA_KEY = "eatfit_site_data";
+        const STATS_DATA_KEY = "eatfit_stats_data";
+        const ADMIN_LOGIN_KEY = "eatfit_admin_login";
+
+        // DOM элементы
+        const loader = document.getElementById('loader');
+        const themeToggle = document.getElementById('themeToggle');
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const mobileMenu = document.getElementById('mobileMenu');
+        const closeMobileMenu = document.getElementById('closeMobileMenu');
+        const backToTop = document.getElementById('backToTop');
+        const chatWidget = document.getElementById('chatWidget');
+        const openChat = document.getElementById('openChat');
+        const closeChat = document.getElementById('closeChat');
+        const chatBody = document.getElementById('chatBody');
+        const chatInput = document.getElementById('chatInput');
+        const sendChat = document.getElementById('sendChat');
+        const notification = document.getElementById('notification');
+        const notificationText = document.getElementById('notificationText');
+        const consultationForm = document.getElementById('consultationForm');
+        const adminLoginModal = document.getElementById('adminLoginModal');
+        const adminPanelModal = document.getElementById('adminPanelModal');
+        const adminPasswordInput = document.getElementById('adminPassword');
+        const currentYear = document.getElementById('currentYear');
+        const adminStatus = document.getElementById('adminStatus');
+
+        // Данные сайта
+        let siteData = {
+            siteTitle: "EatFit",
+            heroSubtitle: "Похудение или набор веса через понимание своего тела, формирование здоровых привычек и индивидуальный подход. Без жестких ограничений и чувства вины.",
+            statClients: 2500,
+            statSuccess: 96,
+            themeColor: "green"
+        };
+
+        let statsData = {
+            visitors: 1247,
+            leads: 84,
+            chats: 23,
+            conversion: 6.7
+        };
+
+        // Статус администратора
+        let isAdminLoggedIn = false;
+
+        // ===== ИНИЦИАЛИЗАЦИЯ =====
+        document.addEventListener('DOMContentLoaded', () => {
+            // Устанавливаем текущий год
+            currentYear.textContent = new Date().getFullYear();
+            
+            // Загружаем сохраненные данные
+            loadSiteData();
+            loadStatsData();
+            checkAdminLogin();
+            
+            // Инициализируем статистику
+            updateStatsDisplay();
+            
+            // Анимация загрузки
+            setTimeout(() => {
+                loader.classList.add('hidden');
+            }, 1000);
+            
+            // Инициализация анимаций
+            initAnimations();
+            
+            // Обновляем контакты
+            updateContacts();
+        });
+
+        // ===== ТЕМА =====
+        themeToggle.addEventListener('click', () => {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+            document.documentElement.setAttribute('data-theme', newTheme);
+            themeToggle.innerHTML = newTheme === 'light' ? '<i class="fas fa-moon"></i>' : '<i class="fas fa-sun"></i>';
+            
+            // Сохраняем в localStorage
+            localStorage.setItem('theme', newTheme);
+            
+            // Эффект нажатия
+            themeToggle.style.animation = 'none';
+            setTimeout(() => {
+                themeToggle.style.animation = 'ripple 1s ease-out';
+            }, 10);
+        });
+
+        // Загружаем сохраненную тему
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        document.documentElement.setAttribute('data-theme', savedTheme);
+        themeToggle.innerHTML = savedTheme === 'light' ? '<i class="fas fa-moon"></i>' : '<i class="fas fa-sun"></i>';
+
+        // ===== МОБИЛЬНОЕ МЕНЮ =====
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.add('active');
+            mobileMenuBtn.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        });
+
+        closeMobileMenu.addEventListener('click', () => {
+            mobileMenu.classList.remove('active');
+            mobileMenuBtn.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        });
+
+        // Закрытие меню при клике на ссылку
+        document.querySelectorAll('.mobile-item').forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.remove('active');
+                mobileMenuBtn.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            });
+        });
+
+        // ===== КНОПКА "НАВЕРХ" =====
+        window.addEventListener('scroll', () => {
+            if (window.pageYOffset > 300) {
+                backToTop.classList.add('visible');
+            } else {
+                backToTop.classList.remove('visible');
+            }
+            
+            // Параллакс эффект
+            const scrolled = window.pageYOffset;
+            const parallaxElements = document.querySelectorAll('.parallax-bg');
+            parallaxElements.forEach(el => {
+                const speed = el.dataset.speed || 0.5;
+                el.style.transform = `translateY(${scrolled * speed}px)`;
+            });
+        });
+
+        backToTop.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+            
+            // Анимация кнопки
+            backToTop.style.transform = 'scale(0.9)';
+            setTimeout(() => {
+                backToTop.style.transform = 'scale(1)';
+            }, 200);
+        });
+
+        // ===== ЧАТ =====
+        openChat.addEventListener('click', () => {
+            chatWidget.classList.add('active');
+            statsData.chats++;
+            saveStatsData();
+            updateStatsDisplay();
+            
+            // Анимация кнопки
+            openChat.style.transform = 'rotate(360deg)';
+            setTimeout(() => {
+                openChat.style.transform = 'rotate(0deg)';
+            }, 400);
+        });
+
+        closeChat.addEventListener('click', () => {
+            chatWidget.classList.remove('active');
+        });
+
+        // Отправка сообщения в чат
+        function sendMessage(message, isUser = false) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = 'message';
+            messageDiv.style.background = isUser ? 'var(--gradient-primary)' : 'var(--bg-color)';
+            messageDiv.style.color = isUser ? 'white' : 'var(--text-color)';
+            messageDiv.style.padding = '10px';
+            messageDiv.style.borderRadius = '10px';
+            messageDiv.style.marginBottom = '10px';
+            messageDiv.style.maxWidth = isUser ? '80%' : '80%';
+            messageDiv.style.marginLeft = isUser ? 'auto' : '0';
+            messageDiv.style.transform = 'scale(0.8)';
+            messageDiv.style.opacity = '0';
+            messageDiv.style.transition = 'all 0.3s ease';
+            
+            const p = document.createElement('p');
+            p.style.margin = '0';
+            p.textContent = message;
+            messageDiv.appendChild(p);
+            
+            const time = document.createElement('p');
+            time.style.margin = '5px 0 0 0';
+            time.style.fontSize = '0.8rem';
+            time.style.color = isUser ? 'rgba(255,255,255,0.8)' : 'var(--text-light)';
+            time.textContent = 'Только что';
+            messageDiv.appendChild(time);
+            
+            chatBody.appendChild(messageDiv);
+            chatBody.scrollTop = chatBody.scrollHeight;
+            
+            // Анимация появления
+            setTimeout(() => {
+                messageDiv.style.transform = 'scale(1)';
+                messageDiv.style.opacity = '1';
+            }, 10);
+        }
+
+        sendChat.addEventListener('click', () => {
+            const message = chatInput.value.trim();
+            if (message) {
+                sendMessage(message, true);
+                chatInput.value = '';
+                
+                // Автоответ через 1 секунду
+                setTimeout(() => {
+                    const responses = [
+                        "Отличный вопрос! Наша программа как раз направлена на решение таких проблем.",
+                        "Это распространенная ситуация. Мы помогаем справиться с подобными сложностями.",
+                        "Рекомендую записаться на бесплатную консультацию для персонального ответа.",
+                        "У нас есть подробные материалы по этой теме. Хотите, пришлю информацию?",
+                        "Ваш вопрос важен для нас. Давайте обсудим его подробнее на консультации."
+                    ];
+                    const randomResponse = responses[Math.floor(Math.random() * responses.length)];
+                    sendMessage(randomResponse);
+                }, 1000);
+            }
+        });
+
+        chatInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                sendChat.click();
+            }
+        });
+
+        // ===== УВЕДОМЛЕНИЯ =====
+        function showNotification(text, type = 'success') {
+            notificationText.textContent = text;
+            const icon = notification.querySelector('i');
+            
+            if (type === 'success') {
+                notification.style.borderLeftColor = 'var(--success-color)';
+                icon.className = 'fas fa-check-circle';
+                icon.style.color = 'var(--success-color)';
+            } else if (type === 'error') {
+                notification.style.borderLeftColor = 'var(--danger-color)';
+                icon.className = 'fas fa-exclamation-circle';
+                icon.style.color = 'var(--danger-color)';
+            } else if (type === 'info') {
+                notification.style.borderLeftColor = 'var(--secondary-color)';
+                icon.className = 'fas fa-info-circle';
+                icon.style.color = 'var(--secondary-color)';
+            }
+            
+            notification.classList.add('show');
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 3000);
+        }
+
+        // ===== ФОРМА КОНСУЛЬТАЦИИ =====
+        consultationForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            // Получаем данные формы
+            const formData = new FormData(consultationForm);
+            const data = Object.fromEntries(formData);
+            
+            // Увеличиваем счетчик заявок
+            statsData.leads++;
+            statsData.conversion = ((statsData.leads / statsData.visitors) * 100).toFixed(1);
+            saveStatsData();
+            updateStatsDisplay();
+            
+            // Показываем уведомление
+            showNotification('Заявка отправлена! Мы свяжемся с вами в течение 24 часов.', 'success');
+            
+            // Анимация формы
+            consultationForm.style.transform = 'scale(0.98)';
+            setTimeout(() => {
+                consultationForm.style.transform = 'scale(1)';
+            }, 200);
+            
+            // Очищаем форму
+            consultationForm.reset();
+        });
+
+        // ===== АНИМАЦИИ =====
+        function initAnimations() {
+            // Анимация при скролле
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, observerOptions);
+
+            // Наблюдаем за элементами с анимацией
+            document.querySelectorAll('.animate-fadeIn').forEach(el => {
+                el.style.opacity = '0';
+                el.style.transform = 'translateY(20px)';
+                el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+                observer.observe(el);
+            });
+            
+            // Анимация для статистики при наведении
+            document.querySelectorAll('.stat-item').forEach(item => {
+                item.addEventListener('mouseenter', () => {
+                    const number = item.querySelector('.stat-number');
+                    const currentValue = parseInt(number.textContent);
+                    if (!isNaN(currentValue)) {
+                        number.style.transform = 'scale(1.2)';
+                        number.style.color = 'var(--accent-color)';
+                    }
+                });
+                
+                item.addEventListener('mouseleave', () => {
+                    const number = item.querySelector('.stat-number');
+                    number.style.transform = 'scale(1)';
+                    number.style.color = '';
+                });
+            });
+            
+            // Анимация для карточек
+            document.querySelectorAll('.approach-card').forEach(card => {
+                card.addEventListener('mouseenter', () => {
+                    card.style.zIndex = '10';
+                });
+                
+                card.addEventListener('mouseleave', () => {
+                    card.style.zIndex = '1';
+                });
+            });
+        }
+
+        // ===== АДМИН ПАНЕЛЬ =====
+        // Открытие модального окна входа
+        function openAdminLogin() {
+            // Если уже вошли, открываем админ панель напрямую
+            if (isAdminLoggedIn) {
+                openAdminPanel();
+            } else {
+                adminLoginModal.classList.add('active');
+                adminPasswordInput.focus();
+            }
+        }
+
+        // Закрытие модального окна входа
+        function closeAdminLogin() {
+            adminLoginModal.classList.remove('active');
+            adminPasswordInput.value = '';
+        }
+
+        // Открытие админ панели
+        function openAdminPanel() {
+            adminPanelModal.classList.add('active');
+            
+            // Заполняем поля данными
+            document.getElementById('editSiteTitle').value = siteData.siteTitle;
+            document.getElementById('editHeroSubtitle').value = siteData.heroSubtitle;
+            document.getElementById('editStatClients').value = siteData.statClients;
+            document.getElementById('editStatSuccess').value = siteData.statSuccess;
+            document.getElementById('editThemeColor').value = siteData.themeColor;
+            
+            // Увеличиваем счетчик посетителей админки
+            statsData.visitors += 100; // Добавляем как посещение админки
+            saveStatsData();
+            updateStatsDisplay();
+        }
+
+        // Закрытие админ панели
+        function closeAdminPanel() {
+            adminPanelModal.classList.remove('active');
+        }
+
+        // Переключение видимости пароля
+        function togglePasswordVisibility() {
+            const passwordField = document.getElementById('adminPassword');
+            const toggleBtn = document.querySelector('.password-toggle-btn i');
+            
+            if (passwordField.type === 'password') {
+                passwordField.type = 'text';
+                toggleBtn.className = 'fas fa-eye-slash';
+            } else {
+                passwordField.type = 'password';
+                toggleBtn.className = 'fas fa-eye';
+            }
+        }
+
+        // Проверка пароля
+        function checkAdminPassword() {
+            const password = adminPasswordInput.value.trim();
+            
+            if (password === ADMIN_PASSWORD) {
+                isAdminLoggedIn = true;
+                localStorage.setItem(ADMIN_LOGIN_KEY, 'true');
+                adminStatus.textContent = 'Авторизован';
+                adminStatus.style.color = 'var(--success-color)';
+                
+                closeAdminLogin();
+                openAdminPanel();
+                showNotification('Доступ к админ-панели разрешен', 'success');
+            } else {
+                showNotification('Неверный пароль', 'error');
+                adminPasswordInput.style.borderColor = 'var(--danger-color)';
+                adminPasswordInput.style.animation = 'shake 0.5s';
+                setTimeout(() => {
+                    adminPasswordInput.style.animation = '';
+                }, 500);
+            }
+            
+            adminPasswordInput.value = '';
+        }
+
+        // Проверка входа администратора
+        function checkAdminLogin() {
+            const savedLogin = localStorage.getItem(ADMIN_LOGIN_KEY);
+            if (savedLogin === 'true') {
+                isAdminLoggedIn = true;
+                adminStatus.textContent = 'Авторизован';
+                adminStatus.style.color = 'var(--success-color)';
+            } else {
+                isAdminLoggedIn = false;
+                adminStatus.textContent = 'Не авторизован';
+                adminStatus.style.color = 'var(--text-light)';
+            }
+        }
+
+        // Выход из админ панели
+        function logoutAdmin() {
+            isAdminLoggedIn = false;
+            localStorage.removeItem(ADMIN_LOGIN_KEY);
+            adminStatus.textContent = 'Не авторизован';
+            adminStatus.style.color = 'var(--text-light)';
+            
+            closeAdminPanel();
+            showNotification('Вы вышли из админ-панели', 'info');
+        }
+
+        // Сохранение изменений из админки
+        function saveAdminChanges() {
+            // Получаем новые значения
+            siteData.siteTitle = document.getElementById('editSiteTitle').value;
+            siteData.heroSubtitle = document.getElementById('editHeroSubtitle').value;
+            siteData.statClients = parseInt(document.getElementById('editStatClients').value) || 0;
+            siteData.statSuccess = parseInt(document.getElementById('editStatSuccess').value) || 0;
+            siteData.themeColor = document.getElementById('editThemeColor').value;
+            
+            // Применяем изменения на сайте
+            document.querySelector('.logo-text').textContent = siteData.siteTitle;
+            document.getElementById('heroSubtitle').textContent = siteData.heroSubtitle;
+            document.getElementById('statClients').textContent = siteData.statClients + '+';
+            document.getElementById('statSuccess').textContent = siteData.statSuccess + '%';
+            
+            // Применяем цвет темы
+            applyThemeColor(siteData.themeColor);
+            
+            // Сохраняем в localStorage
+            saveSiteData();
+            
+            // Показываем уведомление
+            showNotification('Изменения сохранены успешно', 'success');
+            
+            // Анимация сохранения
+            const saveBtn = document.querySelector('.admin-btn');
+            const originalText = saveBtn.innerHTML;
+            saveBtn.innerHTML = '<i class="fas fa-check"></i> Сохранено!';
+            setTimeout(() => {
+                saveBtn.innerHTML = originalText;
+            }, 2000);
+        }
+
+        // Сброс изменений
+        function resetAdminChanges() {
+            siteData = {
+                siteTitle: "EatFit",
+                heroSubtitle: "Похудение или набор веса через понимание своего тела, формирование здоровых привычек и индивидуальный подход. Без жестких ограничений и чувства вины.",
+                statClients: 2500,
+                statSuccess: 96,
+                themeColor: "green"
+            };
+            
+            // Заполняем поля
+            document.getElementById('editSiteTitle').value = siteData.siteTitle;
+            document.getElementById('editHeroSubtitle').value = siteData.heroSubtitle;
+            document.getElementById('editStatClients').value = siteData.statClients;
+            document.getElementById('editStatSuccess').value = siteData.statSuccess;
+            document.getElementById('editThemeColor').value = siteData.themeColor;
+            
+            showNotification('Изменения сброшены', 'info');
+        }
+
+        // Применение цвета темы
+        function applyThemeColor(color) {
+            const root = document.documentElement;
+            
+            switch(color) {
+                case 'blue':
+                    root.style.setProperty('--primary-color', '#3b82f6');
+                    root.style.setProperty('--primary-dark', '#2563eb');
+                    break;
+                case 'orange':
+                    root.style.setProperty('--primary-color', '#f59e0b');
+                    root.style.setProperty('--primary-dark', '#d97706');
+                    break;
+                case 'purple':
+                    root.style.setProperty('--primary-color', '#8b5cf6');
+                    root.style.setProperty('--primary-dark', '#7c3aed');
+                    break;
+                default: // green
+                    root.style.setProperty('--primary-color', '#10b981');
+                    root.style.setProperty('--primary-dark', '#059669');
+            }
+        }
+
+        // Обновление статистики в админке
+        function updateStatsDisplay() {
+            document.getElementById('adminVisitors').textContent = statsData.visitors.toLocaleString();
+            document.getElementById('adminLeads').textContent = statsData.leads;
+            document.getElementById('adminConversion').textContent = statsData.conversion + '%';
+            document.getElementById('adminChats').textContent = statsData.chats;
+        }
+
+        // Экспорт данных
+        function exportData() {
+            const data = {
+                siteData: siteData,
+                statsData: statsData,
+                exportDate: new Date().toISOString()
+            };
+            
+            const dataStr = JSON.stringify(data, null, 2);
+            const dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
+            
+            const exportFileDefaultName = `eatfit_data_${new Date().getTime()}.json`;
+            
+            const linkElement = document.createElement('a');
+            linkElement.setAttribute('href', dataUri);
+            linkElement.setAttribute('download', exportFileDefaultName);
+            linkElement.click();
+            
+            showNotification('Данные экспортированы успешно', 'success');
+        }
+
+        // Очистка данных
+        function clearData() {
+            if (confirm('Вы уверены, что хотите очистить статистику? Это действие нельзя отменить.')) {
+                statsData = {
+                    visitors: 0,
+                    leads: 0,
+                    chats: 0,
+                    conversion: 0
+                };
+                
+                saveStatsData();
+                updateStatsDisplay();
+                showNotification('Статистика очищена', 'info');
+            }
+        }
+
+        // Смена пароля
+        function changePassword() {
+            const newPassword = document.getElementById('newAdminPassword').value.trim();
+            
+            if (newPassword.length >= 6) {
+                // В реальном приложении здесь был бы запрос на сервер
+                showNotification('Пароль успешно изменен! Новый пароль: ' + newPassword, 'success');
+                document.getElementById('newAdminPassword').value = '';
+            } else {
+                showNotification('Пароль должен содержать минимум 6 символов', 'error');
+            }
+        }
+
+        // Обновление контактов
+        function updateContacts() {
+            // Контакты уже обновлены в HTML, но на всякий случай обновим программно
+            const emailLinks = document.querySelectorAll('a[href*="mailto:"]');
+            emailLinks.forEach(link => {
+                if (link.href.includes('mailto:')) {
+                    link.href = 'mailto:astrella718@gmail.com';
+                    if (link.textContent.includes('@')) {
+                        link.textContent = 'astrella718@gmail.com';
+                    }
+                }
+            });
+            
+            const phoneLinks = document.querySelectorAll('a[href*="tel:"]');
+            phoneLinks.forEach(link => {
+                if (link.href.includes('tel:')) {
+                    link.href = 'tel:+998956288000';
+                    if (link.textContent.includes('+')) {
+                        link.textContent = '+998 95 628 80 00';
+                    }
+                }
+            });
+        }
+
+        // ===== LOCALSTORAGE ФУНКЦИИ =====
+        function saveSiteData() {
+            localStorage.setItem(SITE_DATA_KEY, JSON.stringify(siteData));
+        }
+
+        function loadSiteData() {
+            const savedData = localStorage.getItem(SITE_DATA_KEY);
+            if (savedData) {
+                siteData = JSON.parse(savedData);
+                
+                // Применяем загруженные данные
+                document.querySelector('.logo-text').textContent = siteData.siteTitle;
+                document.getElementById('heroSubtitle').textContent = siteData.heroSubtitle;
+                document.getElementById('statClients').textContent = siteData.statClients + '+';
+                document.getElementById('statSuccess').textContent = siteData.statSuccess + '%';
+                applyThemeColor(siteData.themeColor);
+            }
+        }
+
+        function saveStatsData() {
+            localStorage.setItem(STATS_DATA_KEY, JSON.stringify(statsData));
+        }
+
+        function loadStatsData() {
+            const savedData = localStorage.getItem(STATS_DATA_KEY);
+            if (savedData) {
+                statsData = JSON.parse(savedData);
+            } else {
+                // Начальные значения
+                statsData = {
+                    visitors: 1247,
+                    leads: 84,
+                    chats: 23,
+                    conversion: 6.7
+                };
+                saveStatsData();
+            }
+        }
+
+        // ===== ПАРАЛЛАКС ЭФФЕКТ =====
+        document.addEventListener('mousemove', (e) => {
+            const mouseX = e.clientX / window.innerWidth;
+            const mouseY = e.clientY / window.innerHeight;
+            
+            document.querySelectorAll('.floating-element').forEach((el, index) => {
+                const speed = 0.5 + (index * 0.1);
+                const x = (mouseX * 20 * speed) - (10 * speed);
+                const y = (mouseY * 20 * speed) - (10 * speed);
+                
+                el.style.transform = `translate(${x}px, ${y}px) rotate(${mouseX * 20}deg)`;
+            });
+        });
+
+        // Добавляем анимацию shake для неверного пароля
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes shake {
+                0%, 100% { transform: translateX(0); }
+                10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+                20%, 40%, 60%, 80% { transform: translateX(5px); }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>
