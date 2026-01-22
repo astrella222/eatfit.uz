@@ -6,23 +6,32 @@
     <title>EatFit | Питание без диет и срывов</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        /* ===== CSS RESET & VARIABLES ===== */
         :root {
+            /* Light theme - свежие, здоровые цвета */
             --primary-color: #10b981;
             --primary-dark: #059669;
             --secondary-color: #3b82f6;
             --accent-color: #f59e0b;
             --danger-color: #ef4444;
             --success-color: #10b981;
+            
             --bg-color: #f8fafc;
             --card-bg: #ffffff;
             --text-color: #1e293b;
             --text-light: #64748b;
+            
             --border-color: #e2e8f0;
             --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
             --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.03);
+            
             --glass-bg: rgba(255, 255, 255, 0.85);
+            --glass-border: rgba(255, 255, 255, 0.2);
+            
             --border-radius: 16px;
             --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            
+            /* Градиенты для здорового питания */
             --gradient-primary: linear-gradient(135deg, #10b981 0%, #34d399 100%);
             --gradient-secondary: linear-gradient(135deg, #3b82f6 0%, #60a5fa 100%);
             --gradient-accent: linear-gradient(135deg, #f59e0b 0%, #fbbf24 100%);
@@ -30,19 +39,23 @@
         }
 
         [data-theme="dark"] {
+            /* Dark theme */
             --primary-color: #10b981;
             --primary-dark: #34d399;
             --secondary-color: #60a5fa;
             --accent-color: #fbbf24;
             --danger-color: #f87171;
             --success-color: #34d399;
+            
             --bg-color: #0f172a;
             --card-bg: #1e293b;
             --text-color: #f1f5f9;
             --text-light: #94a3b8;
+            
             --border-color: #334155;
             --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
             --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -2px rgba(0, 0, 0, 0.2);
+            
             --glass-bg: rgba(30, 41, 59, 0.85);
             --gradient-card: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
         }
@@ -67,12 +80,45 @@
             overflow-x: hidden;
         }
 
+        /* ===== МОБИЛЬНЫЙ TECH-БЛОК ДЛЯ АДМИНКИ ===== */
+        .tech-block {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            z-index: 1000;
+        }
+
+        .tech-admin-btn {
+            width: 50px;
+            height: 50px;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 50%;
+            color: var(--text-light);
+            font-size: 1.2rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow);
+        }
+
+        .tech-admin-btn:hover {
+            transform: scale(1.1);
+            color: var(--primary-color);
+            border-color: var(--primary-color);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        /* ===== MOBILE FIRST СТИЛИ ===== */
         .container {
             width: 100%;
             padding: 0 20px;
             margin: 0 auto;
         }
 
+        /* Шапка и навигация */
         header {
             position: fixed;
             top: 0;
@@ -123,6 +169,11 @@
             color: transparent;
         }
 
+        .logo-year {
+            color: var(--accent-color);
+            font-weight: 600;
+        }
+
         .nav-menu {
             display: none;
         }
@@ -149,6 +200,35 @@
         .theme-toggle:hover {
             background: var(--card-bg);
             transform: rotate(15deg);
+        }
+
+        .theme-toggle::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 5px;
+            height: 5px;
+            background: rgba(16, 185, 129, 0.4);
+            opacity: 0;
+            border-radius: 100%;
+            transform: scale(1, 1) translate(-50%);
+            transform-origin: 50% 50%;
+        }
+
+        .theme-toggle:focus:not(:active)::after {
+            animation: ripple 1s ease-out;
+        }
+
+        @keyframes ripple {
+            0% {
+                transform: scale(0, 0);
+                opacity: 0.5;
+            }
+            100% {
+                transform: scale(20, 20);
+                opacity: 0;
+            }
         }
 
         .mobile-menu-btn {
@@ -184,6 +264,121 @@
             transform: rotate(-45deg);
         }
 
+        /* Улучшенные анимации кнопок */
+        .primary-btn {
+            background: var(--gradient-primary);
+            color: white;
+            border: none;
+            padding: 14px 28px;
+            border-radius: var(--border-radius);
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .primary-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #059669 0%, #10b981 100%);
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .primary-btn:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 15px 25px -5px rgba(16, 185, 129, 0.3);
+        }
+
+        .primary-btn:hover::before {
+            opacity: 1;
+        }
+
+        .primary-btn:active {
+            transform: translateY(-1px) scale(0.98);
+            transition: transform 0.1s ease;
+        }
+
+        .primary-btn i {
+            transition: transform 0.3s ease;
+        }
+
+        .primary-btn:hover i {
+            transform: translateX(3px);
+        }
+
+        /* Кнопка с пульсацией */
+        .pulse-btn {
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.4);
+            }
+            70% {
+                box-shadow: 0 0 0 10px rgba(16, 185, 129, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(16, 185, 129, 0);
+            }
+        }
+
+        /* Вторая кнопка */
+        .secondary-btn {
+            background: var(--card-bg);
+            color: var(--text-color);
+            border: 2px solid var(--primary-color);
+            padding: 14px 28px;
+            border-radius: var(--border-radius);
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .secondary-btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: var(--primary-color);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+            z-index: -1;
+        }
+
+        .secondary-btn:hover {
+            color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px -5px rgba(16, 185, 129, 0.2);
+        }
+
+        .secondary-btn:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        /* Основной контент */
         main {
             margin-top: 80px;
         }
@@ -195,6 +390,7 @@
             overflow: hidden;
         }
 
+        /* Анимированные элементы на фоне */
         .floating-elements {
             position: absolute;
             width: 100%;
@@ -285,53 +481,6 @@
             animation: slideUp 0.8s ease-out 0.2s both;
         }
 
-        .primary-btn {
-            background: var(--gradient-primary);
-            color: white;
-            border: none;
-            padding: 14px 28px;
-            border-radius: var(--border-radius);
-            font-size: 1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            position: relative;
-            overflow: hidden;
-            z-index: 1;
-        }
-
-        .primary-btn:hover {
-            transform: translateY(-3px) scale(1.02);
-            box-shadow: 0 15px 25px -5px rgba(16, 185, 129, 0.3);
-        }
-
-        .primary-btn i {
-            transition: transform 0.3s ease;
-        }
-
-        .primary-btn:hover i {
-            transform: translateX(3px);
-        }
-
-        .pulse-btn {
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0% {
-                box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.4);
-            }
-            70% {
-                box-shadow: 0 0 0 10px rgba(16, 185, 129, 0);
-            }
-            100% {
-                box-shadow: 0 0 0 0 rgba(16, 185, 129, 0);
-            }
-        }
-
         .hero-actions {
             display: flex;
             gap: 15px;
@@ -371,6 +520,7 @@
             font-size: 0.9rem;
         }
 
+        /* Секции */
         .section {
             padding: 80px 0;
         }
@@ -405,6 +555,7 @@
             margin: 20px auto 0;
         }
 
+        /* Карточки подходов */
         .approaches-grid {
             display: grid;
             grid-template-columns: 1fr;
@@ -436,9 +587,26 @@
             overflow: hidden;
         }
 
+        .approach-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: var(--gradient-primary);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.4s ease;
+        }
+
         .approach-card:hover {
             transform: translateY(-10px) scale(1.02);
             box-shadow: var(--shadow-lg);
+        }
+
+        .approach-card:hover::before {
+            transform: scaleX(1);
         }
 
         .approach-icon {
@@ -490,6 +658,7 @@
             margin-top: 2px;
         }
 
+        /* Принципы */
         .principles-grid {
             display: grid;
             grid-template-columns: 1fr;
@@ -525,6 +694,328 @@
             color: var(--primary-color);
         }
 
+        /* Секция Программа */
+        .program-week {
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            padding: 30px;
+            box-shadow: var(--shadow);
+            margin-bottom: 30px;
+            border-left: 4px solid var(--primary-color);
+            transition: all 0.3s ease;
+        }
+
+        .program-week:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .week-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .week-title {
+            font-size: 1.5rem;
+            color: var(--primary-color);
+        }
+
+        .week-theme {
+            background: var(--gradient-primary);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .week-content {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 25px;
+        }
+
+        @media (min-width: 768px) {
+            .week-content {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        .lectures, .materials {
+            background: var(--bg-color);
+            padding: 20px;
+            border-radius: var(--border-radius);
+        }
+
+        .lectures h4, .materials h4 {
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .lectures ul, .materials ul {
+            list-style: none;
+        }
+
+        .lectures li, .materials li {
+            margin-bottom: 10px;
+            padding-left: 25px;
+            position: relative;
+        }
+
+        .lectures li:before, .materials li:before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: var(--success-color);
+            font-weight: bold;
+        }
+
+        .week-description {
+            margin-top: 20px;
+            padding: 15px;
+            background: var(--bg-color);
+            border-radius: var(--border-radius);
+            border-left: 3px solid var(--accent-color);
+        }
+
+        /* Секция с ползунком цен */
+        .pricing-section {
+            background: var(--gradient-card);
+        }
+
+        .pricing-slider-container {
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            padding: 40px;
+            box-shadow: var(--shadow);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .price-display {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .price-amount {
+            font-size: 3.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .price-currency {
+            font-size: 1.5rem;
+            color: var(--text-light);
+        }
+
+        .price-label {
+            color: var(--text-light);
+            font-size: 1.2rem;
+            margin-top: 10px;
+        }
+
+        /* УЛУЧШЕННЫЙ ПОЛЗУНОК - ПЛАВНЫЙ И БЕЗ ЛАГОВ */
+        .slider-container {
+            position: relative;
+            width: 100%;
+            margin: 60px 0 40px;
+            padding: 0 10px;
+        }
+
+        .slider-track {
+            width: 100%;
+            height: 6px;
+            background: var(--border-color);
+            border-radius: 3px;
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .slider-fill {
+            height: 6px;
+            background: var(--gradient-primary);
+            border-radius: 3px;
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            transition: width 0.15s ease-out;
+            will-change: width;
+        }
+
+        .slider {
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            width: 100%;
+            height: 6px;
+            border-radius: 3px;
+            background: transparent;
+            outline: none;
+            position: relative;
+            z-index: 2;
+            margin: 0;
+            cursor: pointer;
+        }
+
+        .slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: var(--card-bg);
+            border: 3px solid var(--primary-color);
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(16, 185, 129, 0.3);
+            transition: all 0.2s ease;
+            transform: translateZ(0);
+            will-change: transform;
+        }
+
+        .slider::-moz-range-thumb {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: var(--card-bg);
+            border: 3px solid var(--primary-color);
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(16, 185, 129, 0.3);
+        }
+
+        .slider::-webkit-slider-thumb:hover {
+            transform: scale(1.15);
+            box-shadow: 0 6px 15px rgba(16, 185, 129, 0.4);
+        }
+
+        .slider-labels {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 25px;
+            position: relative;
+        }
+
+        .slider-label {
+            position: relative;
+            text-align: center;
+            flex: 1;
+            color: var(--text-light);
+            font-weight: 500;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            padding: 5px 0;
+            user-select: none;
+        }
+
+        .slider-label:hover {
+            color: var(--primary-color);
+        }
+
+        .slider-label.active {
+            color: var(--primary-color);
+            font-weight: 600;
+            transform: translateY(-2px);
+        }
+
+        .slider-label::before {
+            content: '';
+            position: absolute;
+            top: -22px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 10px;
+            height: 10px;
+            background: var(--border-color);
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+
+        .slider-label.active::before {
+            background: var(--primary-color);
+            transform: translateX(-50%) scale(1.2);
+        }
+
+        /* Опции программы по тарифам */
+        .program-options {
+            margin-top: 50px;
+            transition: all 0.3s ease;
+        }
+
+        .program-option {
+            display: flex;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px solid var(--border-color);
+            transition: all 0.4s ease;
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .program-option.hidden {
+            opacity: 0;
+            transform: translateX(-20px);
+            height: 0;
+            padding: 0;
+            margin: 0;
+            border: none;
+            overflow: hidden;
+            pointer-events: none;
+        }
+
+        .program-option:last-child {
+            border-bottom: none;
+        }
+
+        .option-check {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: var(--success-color);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            flex-shrink: 0;
+            transition: all 0.3s ease;
+        }
+
+        .option-check i {
+            font-size: 0.8rem;
+        }
+
+        .option-check.unavailable {
+            background: var(--border-color);
+            color: var(--text-light);
+        }
+
+        .option-text {
+            flex: 1;
+            color: var(--text-color);
+            transition: color 0.3s ease;
+        }
+
+        .program-option.unavailable .option-text {
+            color: var(--text-light);
+            text-decoration: line-through;
+        }
+
+        .pricing-action {
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        /* Форма */
         .contact-section {
             background: var(--gradient-card);
         }
@@ -536,10 +1027,17 @@
             box-shadow: var(--shadow);
             max-width: 600px;
             margin: 0 auto;
+            transform-style: preserve-3d;
+            perspective: 1000px;
         }
 
         .form-group {
             margin-bottom: 20px;
+            transition: transform 0.3s ease;
+        }
+
+        .form-group:hover {
+            transform: translateZ(10px);
         }
 
         .form-group label {
@@ -571,6 +1069,7 @@
             transform: translateY(-2px);
         }
 
+        /* Футер */
         footer {
             background: var(--card-bg);
             border-top: 1px solid var(--border-color);
@@ -653,6 +1152,7 @@
             color: var(--text-light);
         }
 
+        /* Мобильное меню */
         .mobile-menu {
             position: fixed;
             top: 0;
@@ -686,12 +1186,13 @@
             flex: 1;
             display: flex;
             flex-direction: column;
+            justify-content: center;
         }
 
         .mobile-item {
             display: block;
             padding: 20px 0;
-            font-size: 1.2rem;
+            font-size: 1.5rem;
             color: var(--text-color);
             text-decoration: none;
             border-bottom: 1px solid var(--border-color);
@@ -700,19 +1201,28 @@
             overflow: hidden;
         }
 
+        .mobile-item::before {
+            content: '';
+            position: absolute;
+            left: -100%;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--gradient-primary);
+            transition: left 0.3s ease;
+            z-index: -1;
+        }
+
         .mobile-item:hover {
-            color: var(--primary-color);
+            color: white;
             padding-left: 20px;
         }
 
-        .mobile-menu-actions {
-            display: flex;
-            gap: 15px;
-            margin-top: 30px;
-            padding-top: 20px;
-            border-top: 1px solid var(--border-color);
+        .mobile-item:hover::before {
+            left: 0;
         }
 
+        /* Уведомления */
         .notification {
             position: fixed;
             top: 20px;
@@ -739,9 +1249,10 @@
             color: var(--success-color);
         }
 
+        /* Кнопка наверх - ПОДНИМАЕМ ВЫШЕ */
         .back-to-top {
             position: fixed;
-            bottom: 30px;
+            bottom: 130px; /* Было 90px, подняли выше */
             right: 30px;
             width: 50px;
             height: 50px;
@@ -771,6 +1282,7 @@
             transform: translateY(0) scale(1);
         }
 
+        /* Чат */
         .chat-widget {
             position: fixed;
             bottom: 100px;
@@ -824,6 +1336,7 @@
             box-shadow: 0 15px 30px rgba(16, 185, 129, 0.4);
         }
 
+        /* Админ панель в футере */
         .admin-section {
             margin-top: 15px;
             padding-top: 15px;
@@ -1040,6 +1553,7 @@
             color: var(--text-light);
         }
 
+        /* Модальное окно входа в админку */
         .admin-login-modal {
             display: none;
             position: fixed;
@@ -1101,6 +1615,7 @@
             padding: 5px;
         }
 
+        /* Медиа запросы */
         @media (min-width: 768px) {
             .hero-title {
                 font-size: 3rem;
@@ -1177,8 +1692,33 @@
                 width: calc(100% - 40px);
                 right: 20px;
             }
+            
+            .tech-block {
+                bottom: 15px;
+                left: 15px;
+            }
+            
+            .tech-admin-btn {
+                width: 45px;
+                height: 45px;
+                font-size: 1rem;
+            }
+            
+            .price-amount {
+                font-size: 2.5rem;
+            }
+            
+            .back-to-top {
+                bottom: 110px;
+                right: 20px;
+            }
+            
+            .slider-label {
+                font-size: 0.8rem;
+            }
         }
 
+        /* Анимации */
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
@@ -1194,9 +1734,52 @@
         .delay-300 { animation-delay: 0.3s; }
         .delay-400 { animation-delay: 0.4s; }
         .delay-500 { animation-delay: 0.5s; }
+
+        /* Эффект параллакса */
+        .parallax-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            will-change: transform;
+            z-index: -1;
+        }
+        
+        /* Лоадер */
+        .loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--bg-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 99999;
+            transition: opacity 0.5s ease;
+        }
+        
+        .loader.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+        
+        .loader-content {
+            text-align: center;
+        }
+        
+        .logo-loader {
+            font-size: 4rem;
+            animation: float 3s ease-in-out infinite;
+        }
     </style>
 </head>
 <body>
+    <!-- Лоадер -->
     <div id="loader" class="loader">
         <div class="loader-content">
             <div class="logo-loader" style="text-align: center;">
@@ -1207,6 +1790,14 @@
         </div>
     </div>
 
+    <!-- Tech-блок для админки в левом нижнем углу -->
+    <div class="tech-block">
+        <button class="tech-admin-btn" onclick="openAdminLogin()" title="Админ-панель">
+            <i class="fas fa-user-shield"></i>
+        </button>
+    </div>
+
+    <!-- Модальное окно входа в админку -->
     <div class="admin-login-modal" id="adminLoginModal">
         <div class="admin-login-content">
             <div class="admin-login-icon">
@@ -1226,12 +1817,13 @@
                 <i class="fas fa-sign-in-alt"></i> Войти
             </button>
             
-            <button class="primary-btn" onclick="closeAdminLogin()" style="width: 100%; margin-top: 10px; background: var(--danger-color);">
+            <button class="secondary-btn" onclick="closeAdminLogin()" style="width: 100%; margin-top: 10px;">
                 <i class="fas fa-times"></i> Отмена
             </button>
         </div>
     </div>
 
+    <!-- Админ панель -->
     <div class="admin-panel-modal" id="adminPanelModal">
         <div class="admin-panel-content">
             <div class="admin-panel-header">
@@ -1314,7 +1906,15 @@
                         </button>
                     </div>
                     
-                    <button class="admin-btn danger" onclick="logoutAdmin()" style="width: 100%; margin-top: 20px;">
+                    <div class="admin-form-group" style="margin-top: 20px;">
+                        <label>Сменить пароль админа:</label>
+                        <input type="password" id="newAdminPassword" placeholder="Новый пароль">
+                        <button class="admin-btn" onclick="changePassword()" style="margin-top: 10px;">
+                            <i class="fas fa-key"></i> Обновить пароль
+                        </button>
+                    </div>
+                    
+                    <button class="admin-btn danger" onclick="logoutAdmin()" style="width: 100%; margin-top: 10px;">
                         <i class="fas fa-sign-out-alt"></i> Выйти из админ-панели
                     </button>
                 </div>
@@ -1322,6 +1922,7 @@
         </div>
     </div>
 
+    <!-- Навигация -->
     <header>
         <div class="nav-container">
             <div class="nav-logo">
@@ -1332,6 +1933,8 @@
             <nav class="nav-menu">
                 <a href="#home" class="nav-link">Главная</a>
                 <a href="#approaches" class="nav-link">Наш подход</a>
+                <a href="#program" class="nav-link">Программа</a>
+                <a href="#pricing" class="nav-link">Тарифы</a>
                 <a href="#principles" class="nav-link">Принципы</a>
                 <a href="#results" class="nav-link">Результаты</a>
                 <a href="#contact" class="nav-link">Консультация</a>
@@ -1350,35 +1953,31 @@
         </div>
     </header>
 
+    <!-- Мобильное меню -->
     <div class="mobile-menu" id="mobileMenu">
         <div class="mobile-menu-header">
             <div class="nav-logo">
                 <span class="logo-icon">🥗</span>
                 <span class="logo-text">EatFit</span>
             </div>
-            <button class="close-mobile-menu" id="closeMobileMenuBtn">
+            <button class="theme-toggle" id="closeMobileMenu">
                 <i class="fas fa-times"></i>
             </button>
         </div>
         <div class="mobile-menu-content">
             <a href="#home" class="mobile-item">Главная</a>
             <a href="#approaches" class="mobile-item">Наш подход</a>
+            <a href="#program" class="mobile-item">Программа</a>
+            <a href="#pricing" class="mobile-item">Тарифы</a>
             <a href="#principles" class="mobile-item">Принципы</a>
             <a href="#results" class="mobile-item">Результаты</a>
             <a href="#contact" class="mobile-item">Консультация</a>
-            
-            <div class="mobile-menu-actions">
-                <button class="theme-toggle mobile-theme-toggle" id="mobileThemeToggle">
-                    <i class="fas fa-moon"></i> Сменить тему
-                </button>
-                <button class="admin-toggle-btn" onclick="openAdminLogin()">
-                    <i class="fas fa-user-shield"></i> Админ-панель
-                </button>
-            </div>
         </div>
     </div>
 
+    <!-- Основной контент -->
     <main>
+        <!-- Герой секция -->
         <section id="home" class="hero-section">
             <div class="floating-elements">
                 <div class="floating-element">🥑</div>
@@ -1401,8 +2000,8 @@
                         <a href="#contact" class="primary-btn pulse-btn">
                             <i class="fas fa-calendar-check"></i> Бесплатная консультация
                         </a>
-                        <a href="#approaches" class="primary-btn" style="background: var(--gradient-secondary);">
-                            <i class="fas fa-book-open"></i> Узнать о подходе
+                        <a href="#pricing" class="secondary-btn">
+                            <i class="fas fa-tags"></i> Выбрать тариф
                         </a>
                     </div>
                     <div class="hero-stats">
@@ -1423,6 +2022,7 @@
             </div>
         </section>
 
+        <!-- Наш подход -->
         <section id="approaches" class="section">
             <div class="container">
                 <div class="section-header animate-fadeIn">
@@ -1472,7 +2072,176 @@
             </div>
         </section>
 
-        <section id="principles" class="section" style="background: var(--gradient-card);">
+        <!-- Программа интенсива -->
+        <section id="program" class="section" style="background: var(--gradient-card);">
+            <div class="container">
+                <div class="section-header animate-fadeIn">
+                    <h2 class="section-title">Программа <span class="accent">интенсива</span></h2>
+                    <p class="section-subtitle">4-недельный путь к здоровым отношениям с питанием</p>
+                </div>
+                
+                <div class="program-week animate-fadeIn">
+                    <div class="week-header">
+                        <h3 class="week-title">Неделя 1 — Старт и фундамент</h3>
+                        <span class="week-theme">Тема: База здорового питания</span>
+                    </div>
+                    <div class="week-content">
+                        <div class="lectures">
+                            <h4><i class="fas fa-chalkboard-teacher"></i> Лекции:</h4>
+                            <ul>
+                                <li>Введение: как работает похудение</li>
+                                <li>Как формируется вес</li>
+                                <li>Калории без фанатизма</li>
+                                <li>Почему диеты не работают</li>
+                                <li>Основа EatFit</li>
+                            </ul>
+                        </div>
+                        <div class="materials">
+                            <h4><i class="fas fa-file-alt"></i> Материалы:</h4>
+                            <ul>
+                                <li>Мини-гайд «Как не сорваться»</li>
+                                <li>Чек-лист привычек</li>
+                                <li>Таблица калорий</li>
+                                <li>Инструкция по старту</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="program-week animate-fadeIn delay-100">
+                    <div class="week-header">
+                        <h3 class="week-title">Неделя 2 — Осознанность и контроль</h3>
+                        <span class="week-theme">Тема: Пищевое поведение</span>
+                    </div>
+                    <div class="week-content">
+                        <div class="lectures">
+                            <h4><i class="fas fa-chalkboard-teacher"></i> Лекции:</h4>
+                            <ul>
+                                <li>Эмоциональный и физический голод</li>
+                                <li>Срывы и как с ними работать</li>
+                                <li>Триггеры переедания</li>
+                                <li>Контроль аппетита</li>
+                                <li>Осознанное питание</li>
+                            </ul>
+                        </div>
+                        <div class="materials">
+                            <h4><i class="fas fa-file-alt"></i> Материалы:</h4>
+                            <ul>
+                                <li>Шкала голода</li>
+                                <li>Дневник питания</li>
+                                <li>Гайд по эмоциям</li>
+                                <li>Чек-лист триггеров</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="program-week animate-fadeIn delay-200">
+                    <div class="week-header">
+                        <h3 class="week-title">Неделя 3 — Тело и система</h3>
+                        <span class="week-theme">Тема: Энергия и образ жизни</span>
+                    </div>
+                    <div class="week-content">
+                        <div class="lectures">
+                            <h4><i class="fas fa-chalkboard-teacher"></i> Лекции:</h4>
+                            <ul>
+                                <li>Сон и восстановление</li>
+                                <li>Движение для здоровья</li>
+                                <li>Активность без фанатизма</li>
+                                <li>Метаболизм: мифы и правда</li>
+                                <li>Адаптация к новому образу жизни</li>
+                            </ul>
+                        </div>
+                        <div class="materials">
+                            <h4><i class="fas fa-file-alt"></i> Материалы:</h4>
+                            <ul>
+                                <li>Гайд по активности</li>
+                                <li>План движения</li>
+                                <li>Таблица восстановления</li>
+                                <li>Чек-лист сна</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="program-week animate-fadeIn delay-300">
+                    <div class="week-header">
+                        <h3 class="week-title">Неделя 4 — Закрепление результатов</h3>
+                        <span class="week-theme">Тема: Мы с этим образом жизни надолго</span>
+                    </div>
+                    <div class="week-content">
+                        <div class="lectures">
+                            <h4><i class="fas fa-chalkboard-teacher"></i> Лекции:</h4>
+                            <ul>
+                                <li>Привычки на всю жизнь</li>
+                                <li>Питание как стиль жизни</li>
+                                <li>Гибкость в питании</li>
+                                <li>Стабильность результатов</li>
+                            </ul>
+                        </div>
+                        <div class="materials">
+                            <h4><i class="fas fa-file-alt"></i> Материалы:</h4>
+                            <ul>
+                                <li>Гайд по ресторанам</li>
+                                <li>Анти-плато: что делать</li>
+                                <li>Корректировка рациона</li>
+                                <li>Планировщик питания</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="week-description">
+                        <p><strong>Описание:</strong> Формируем привычки, которые останутся с вами навсегда. Учимся питаться гибко, сохраняя достигнутые результаты и продолжая прогрессировать.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Секция с ползунком цен -->
+        <section id="pricing" class="section pricing-section">
+            <div class="container">
+                <div class="section-header animate-fadeIn">
+                    <h2 class="section-title">Выберите свой <span class="accent">тариф</span></h2>
+                    <p class="section-subtitle">Настройте программу под свои потребности и бюджет</p>
+                </div>
+                
+                <div class="pricing-slider-container animate-fadeIn">
+                    <div class="price-display">
+                        <div class="price-amount" id="priceAmount">200,000</div>
+                        <span class="price-currency">UZS</span>
+                        <div class="price-label" id="priceLabel">Лайт - Самостоятельное обучение</div>
+                    </div>
+                    
+                    <div class="slider-container">
+                        <div class="slider-track"></div>
+                        <div class="slider-fill" id="sliderFill"></div>
+                        <input type="range" min="1" max="4" value="1" class="slider" id="priceSlider">
+                        
+                        <div class="slider-labels">
+                            <div class="slider-label active" data-level="1">Лайт</div>
+                            <div class="slider-label" data-level="2">Стандарт</div>
+                            <div class="slider-label" data-level="3">Премиум</div>
+                            <div class="slider-label" data-level="4">VIP</div>
+                        </div>
+                    </div>
+                    
+                    <div class="program-options" id="programOptions">
+                        <!-- Опции будут заполнены JavaScript -->
+                    </div>
+                    
+                    <div class="pricing-action">
+                        <button class="primary-btn pulse-btn" onclick="selectTariff()">
+                            <i class="fas fa-shopping-cart"></i> Выбрать этот тариф
+                        </button>
+                        <p style="margin-top: 15px; color: var(--text-light); font-size: 0.9rem;">
+                            <i class="fas fa-info-circle"></i> Оплата в рассрочку доступна для всех тарифов
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Принципы -->
+        <section id="principles" class="section">
             <div class="container">
                 <div class="section-header animate-fadeIn">
                     <h2 class="section-title">Наши <span class="accent">принципы</span></h2>
@@ -1502,7 +2271,8 @@
             </div>
         </section>
 
-        <section id="results" class="section">
+        <!-- Результаты -->
+        <section id="results" class="section" style="background: var(--gradient-card);">
             <div class="container">
                 <div class="section-header animate-fadeIn">
                     <h2 class="section-title">Каких <span class="accent">результатов</span> ждать</h2>
@@ -1536,6 +2306,7 @@
             </div>
         </section>
 
+        <!-- Консультация -->
         <section id="contact" class="section contact-section">
             <div class="container">
                 <div class="section-header animate-fadeIn">
@@ -1588,6 +2359,7 @@
         </section>
     </main>
 
+    <!-- Футер -->
     <footer>
         <div class="footer-content">
             <div style="text-align: center; margin-bottom: 40px;">
@@ -1605,6 +2377,8 @@
                     <h4>EatFit</h4>
                     <a href="#home">Главная</a>
                     <a href="#approaches">Наш подход</a>
+                    <a href="#program">Программа</a>
+                    <a href="#pricing">Тарифы</a>
                     <a href="#principles">Принципы</a>
                     <a href="#results">Результаты</a>
                     <a href="#contact">Консультация</a>
@@ -1621,43 +2395,38 @@
                 
                 <div class="footer-column">
                     <h4>Соцсети</h4>
-                    <a href="#"><i class="fab fa-telegram"></i> Telegram</a>
-                    <a href="#"><i class="fab fa-whatsapp"></i> WhatsApp</a>
-                    <a href="#"><i class="fab fa-instagram"></i> Instagram</a>
-                    <a href="#"><i class="fab fa-vk"></i> ВКонтакте</a>
+                    <a href="https://t.me/eatfiit" target="_blank">
+                        <i class="fab fa-telegram"></i> Telegram
+                    </a>
+                    <a href="https://www.instagram.com/1eat_fitt?igsh=bTdwOHo5OWtzN3Vr" target="_blank">
+                        <i class="fab fa-instagram"></i> Instagram
+                    </a>
                 </div>
                 
                 <div class="footer-column">
-                    <h4>Администрирование</h4>
-                    <p style="color: var(--text-light); font-size: 0.9rem; margin-bottom: 15px;">
-                        Управление контентом и статистикой сайта
-                    </p>
-                    <button class="admin-toggle-btn" onclick="openAdminLogin()">
-                        <i class="fas fa-user-shield"></i> Открыть админ-панель
-                    </button>
-                    
-                    <div class="admin-section">
-                        <p style="font-size: 0.8rem; color: var(--text-light); margin-top: 10px;">
-                            <i class="fas fa-info-circle"></i> Статус: <span id="adminStatus">Не авторизован</span>
-                        </p>
-                    </div>
+                    <h4>Правовая информация</h4>
+                    <a href="#">Политика конфиденциальности</a>
+                    <a href="#">Договор-оферта</a>
+                    <a href="#">Отказ от ответственности</a>
+                    <a href="#">Способы оплаты</a>
                 </div>
             </div>
             
             <div class="footer-bottom">
                 <p>&copy; <span id="currentYear">2024</span> EatFit. Все права защищены.</p>
                 <p style="margin-top: 10px; font-size: 0.9rem; color: var(--text-light);">
-                    <a href="#" style="color: var(--text-light);">Политика конфиденциальности</a> | 
-                    <a href="#" style="color: var(--text-light);">Договор-оферта</a>
+                    ОГРН: 1234567890123 | ИНН: 1234567890
                 </p>
             </div>
         </div>
     </footer>
 
+    <!-- Кнопка наверх - ПОДНЯТА ВЫШЕ -->
     <button class="back-to-top" id="backToTop">
         <i class="fas fa-chevron-up"></i>
     </button>
 
+    <!-- Чат -->
     <div class="chat-widget" id="chatWidget">
         <div class="chat-header" style="padding: 15px; border-bottom: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center; background: var(--gradient-primary); color: white;">
             <h3 style="margin: 0; display: flex; align-items: center; gap: 10px;">
@@ -1686,22 +2455,25 @@
         <i class="fas fa-comment-dots"></i>
     </button>
 
+    <!-- Уведомление -->
     <div class="notification" id="notification">
         <i class="fas fa-check-circle"></i>
         <span id="notificationText">Сообщение отправлено!</span>
     </div>
 
     <script>
-        const ADMIN_PASSWORD = "astrella077";
+        // ===== ПЕРЕМЕННЫЕ И КОНСТАНТЫ =====
+        const ADMIN_PASSWORD = "astrella077"; // Измененный пароль
         const SITE_DATA_KEY = "eatfit_site_data";
         const STATS_DATA_KEY = "eatfit_stats_data";
         const ADMIN_LOGIN_KEY = "eatfit_admin_login";
 
+        // DOM элементы
         const loader = document.getElementById('loader');
         const themeToggle = document.getElementById('themeToggle');
         const mobileMenuBtn = document.getElementById('mobileMenuBtn');
         const mobileMenu = document.getElementById('mobileMenu');
-        const closeMobileMenuBtn = document.getElementById('closeMobileMenuBtn');
+        const closeMobileMenu = document.getElementById('closeMobileMenu');
         const backToTop = document.getElementById('backToTop');
         const chatWidget = document.getElementById('chatWidget');
         const openChat = document.getElementById('openChat');
@@ -1716,9 +2488,14 @@
         const adminPanelModal = document.getElementById('adminPanelModal');
         const adminPasswordInput = document.getElementById('adminPassword');
         const currentYear = document.getElementById('currentYear');
-        const adminStatus = document.getElementById('adminStatus');
-        const mobileThemeToggle = document.getElementById('mobileThemeToggle');
+        const priceSlider = document.getElementById('priceSlider');
+        const priceAmount = document.getElementById('priceAmount');
+        const priceLabel = document.getElementById('priceLabel');
+        const sliderFill = document.getElementById('sliderFill');
+        const programOptions = document.getElementById('programOptions');
+        const sliderLabels = document.querySelectorAll('.slider-label');
 
+        // Данные сайта
         let siteData = {
             siteTitle: "EatFit",
             heroSubtitle: "Похудение или набор веса через понимание своего тела, формирование здоровых привычек и индивидуальный подход. Без жестких ограничений и чувства вины.",
@@ -1734,51 +2511,310 @@
             conversion: 6.7
         };
 
+        // Статус администратора
         let isAdminLoggedIn = false;
 
+        // Данные для ползунка цен с правильной логикой опций
+        const pricingData = {
+            1: {
+                price: 200000,
+                label: "Лайт - Самостоятельное обучение",
+                options: [
+                    { text: "Доступ к 4-недельной программе", available: true },
+                    { text: "Все учебные материалы и гайды", available: true },
+                    { text: "Групповой чат участников", available: true },
+                    { text: "Личный дневник питания", available: false },
+                    { text: "Проверка дневника питания", available: false },
+                    { text: "Индивидуальная коррекция плана", available: false },
+                    { text: "Видео-консультации с экспертом", available: false },
+                    { text: "Ежедневная поддержка в чате", available: false },
+                    { text: "Индивидуальные рецепты", available: false },
+                    { text: "Пожизненный доступ к материалам", available: false }
+                ]
+            },
+            2: {
+                price: 350000,
+                label: "Стандарт - Базовая поддержка",
+                options: [
+                    { text: "Доступ к 4-недельной программе", available: true },
+                    { text: "Все учебные материалы и гайды", available: true },
+                    { text: "Групповой чат участников", available: true },
+                    { text: "Личный дневник питания", available: true },
+                    { text: "Проверка дневника питания", available: true },
+                    { text: "Индивидуальная коррекция плана", available: false },
+                    { text: "Видео-консультации с экспертом", available: false },
+                    { text: "Ежедневная поддержка в чате", available: false },
+                    { text: "Индивидуальные рецепты", available: false },
+                    { text: "Пожизненный доступ к материалам", available: false }
+                ]
+            },
+            3: {
+                price: 550000,
+                label: "Премиум - Персональный подход",
+                options: [
+                    { text: "Доступ к 4-недельной программе", available: true },
+                    { text: "Все учебные материалы и гайды", available: true },
+                    { text: "Групповой чат участников", available: true },
+                    { text: "Личный дневник питания", available: true },
+                    { text: "Проверка дневника питания", available: true },
+                    { text: "Индивидуальная коррекция плана", available: true },
+                    { text: "Видео-консультации с экспертом", available: true },
+                    { text: "Ежедневная поддержка в чате", available: false },
+                    { text: "Индивидуальные рецепты", available: false },
+                    { text: "Пожизненный доступ к материалам", available: false }
+                ]
+            },
+            4: {
+                price: 850000,
+                label: "VIP - Максимальная забота",
+                options: [
+                    { text: "Доступ к 4-недельной программе", available: true },
+                    { text: "Все учебные материалы и гайды", available: true },
+                    { text: "Групповой чат участников", available: true },
+                    { text: "Личный дневник питания", available: true },
+                    { text: "Проверка дневника питания", available: true },
+                    { text: "Индивидуальная коррекция плана", available: true },
+                    { text: "Видео-консультации с экспертом", available: true },
+                    { text: "Ежедневная поддержка в чате", available: true },
+                    { text: "Индивидуальные рецепты", available: true },
+                    { text: "Пожизненный доступ к материалам", available: true }
+                ]
+            }
+        };
+
+        // ===== ИНИЦИАЛИЗАЦИЯ =====
         document.addEventListener('DOMContentLoaded', () => {
+            // Устанавливаем текущий год
             currentYear.textContent = new Date().getFullYear();
+            
+            // Загружаем сохраненные данные
             loadSiteData();
             loadStatsData();
             checkAdminLogin();
+            
+            // Инициализируем статистику
             updateStatsDisplay();
             
+            // Инициализируем ползунок цен
+            initPricingSlider();
+            
+            // Анимация загрузки
             setTimeout(() => {
-                loader.style.display = 'none';
+                loader.classList.add('hidden');
             }, 1000);
             
+            // Инициализация анимаций
             initAnimations();
         });
 
-        function toggleTheme() {
+        // ===== УЛУЧШЕННЫЙ ПОЛЗУНОК ЦЕН =====
+        function initPricingSlider() {
+            // Устанавливаем начальное значение
+            updatePricing(1);
+            
+            // Оптимизированный обработчик изменения ползунка
+            let isSliding = false;
+            let slideTimeout;
+            
+            priceSlider.addEventListener('input', (e) => {
+                const value = parseInt(e.target.value);
+                
+                // Обновляем визуально немедленно
+                updateSliderFill();
+                
+                // Обновляем метки
+                updateSliderLabels(value);
+                
+                // Дебаунс для плавного обновления цены и опций
+                if (!isSliding) {
+                    isSliding = true;
+                    updatePricing(value);
+                }
+                
+                clearTimeout(slideTimeout);
+                slideTimeout = setTimeout(() => {
+                    isSliding = false;
+                    updatePricing(value);
+                }, 50);
+            });
+            
+            // Обработчики для кликов по меткам
+            sliderLabels.forEach(label => {
+                label.addEventListener('click', () => {
+                    const level = parseInt(label.dataset.level);
+                    priceSlider.value = level;
+                    updatePricing(level);
+                    updateSliderFill();
+                    updateSliderLabels(level);
+                });
+            });
+            
+            // Обновляем заполнение ползунка
+            updateSliderFill();
+        }
+
+        function updatePricing(level) {
+            const data = pricingData[level];
+            
+            // Плавная анимация изменения цены
+            priceAmount.style.opacity = '0.7';
+            priceAmount.style.transform = 'translateY(5px)';
+            
+            setTimeout(() => {
+                priceAmount.textContent = data.price.toLocaleString('ru-RU');
+                priceAmount.style.opacity = '1';
+                priceAmount.style.transform = 'translateY(0)';
+            }, 150);
+            
+            // Обновляем метку
+            priceLabel.textContent = data.label;
+            
+            // Обновляем опции программы
+            updateProgramOptions(level);
+        }
+
+        function updateSliderLabels(activeLevel) {
+            sliderLabels.forEach(label => {
+                const labelLevel = parseInt(label.dataset.level);
+                if (labelLevel === activeLevel) {
+                    label.classList.add('active');
+                } else {
+                    label.classList.remove('active');
+                }
+            });
+        }
+
+        function updateSliderFill() {
+            const value = priceSlider.value;
+            const min = priceSlider.min;
+            const max = priceSlider.max;
+            const percentage = ((value - min) / (max - min)) * 100;
+            sliderFill.style.width = `${percentage}%`;
+        }
+
+        function updateProgramOptions(level) {
+            const options = pricingData[level].options;
+            
+            // Если опции уже отображены, просто обновляем их статус
+            const existingOptions = programOptions.querySelectorAll('.program-option');
+            
+            if (existingOptions.length > 0) {
+                // Обновляем существующие опции
+                existingOptions.forEach((optionElement, index) => {
+                    const optionData = options[index];
+                    if (optionData) {
+                        setTimeout(() => {
+                            if (optionData.available) {
+                                optionElement.classList.remove('hidden', 'unavailable');
+                                optionElement.querySelector('.option-check').classList.remove('unavailable');
+                                optionElement.querySelector('.option-text').classList.remove('unavailable');
+                            } else {
+                                optionElement.classList.add('unavailable');
+                                optionElement.querySelector('.option-check').classList.add('unavailable');
+                                optionElement.querySelector('.option-text').classList.add('unavailable');
+                            }
+                        }, index * 30);
+                    }
+                });
+            } else {
+                // Создаем новые опции
+                programOptions.innerHTML = '';
+                
+                options.forEach((option, index) => {
+                    setTimeout(() => {
+                        const optionElement = document.createElement('div');
+                        optionElement.className = `program-option ${option.available ? '' : 'unavailable'}`;
+                        optionElement.style.opacity = '0';
+                        optionElement.style.transform = 'translateX(-20px)';
+                        
+                        const checkDiv = document.createElement('div');
+                        checkDiv.className = `option-check ${option.available ? '' : 'unavailable'}`;
+                        checkDiv.innerHTML = option.available ? 
+                            '<i class="fas fa-check"></i>' : 
+                            '<i class="fas fa-times"></i>';
+                        
+                        const textDiv = document.createElement('div');
+                        textDiv.className = `option-text ${option.available ? '' : 'unavailable'}`;
+                        textDiv.textContent = option.text;
+                        
+                        optionElement.appendChild(checkDiv);
+                        optionElement.appendChild(textDiv);
+                        programOptions.appendChild(optionElement);
+                        
+                        // Анимация появления
+                        setTimeout(() => {
+                            optionElement.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
+                            optionElement.style.opacity = '1';
+                            optionElement.style.transform = 'translateX(0)';
+                        }, 50);
+                    }, index * 80);
+                });
+            }
+        }
+
+        function selectTariff() {
+            const level = parseInt(priceSlider.value);
+            const price = pricingData[level].price;
+            const label = pricingData[level].label;
+            
+            // Подсчитываем доступные опции
+            const availableOptions = pricingData[level].options.filter(opt => opt.available).length;
+            const totalOptions = pricingData[level].options.length;
+            
+            showNotification(
+                `Вы выбрали тариф "${label}" за ${price.toLocaleString('ru-RU')} UZS! ` +
+                `Доступно ${availableOptions} из ${totalOptions} опций. Мы свяжемся с вами для уточнения деталей.`, 
+                'success'
+            );
+            
+            // Прокручиваем к форме консультации
+            document.querySelector('#contact').scrollIntoView({
+                behavior: 'smooth'
+            });
+            
+            // Увеличиваем счетчик заявок
+            statsData.leads++;
+            statsData.conversion = ((statsData.leads / statsData.visitors) * 100).toFixed(1);
+            saveStatsData();
+            updateStatsDisplay();
+        }
+
+        // ===== ТЕМА =====
+        themeToggle.addEventListener('click', () => {
             const currentTheme = document.documentElement.getAttribute('data-theme');
             const newTheme = currentTheme === 'light' ? 'dark' : 'light';
             document.documentElement.setAttribute('data-theme', newTheme);
             themeToggle.innerHTML = newTheme === 'light' ? '<i class="fas fa-moon"></i>' : '<i class="fas fa-sun"></i>';
-            mobileThemeToggle.innerHTML = newTheme === 'light' ? '<i class="fas fa-moon"></i> Сменить тему' : '<i class="fas fa-sun"></i> Сменить тему';
+            
+            // Сохраняем в localStorage
             localStorage.setItem('theme', newTheme);
-        }
+            
+            // Эффект нажатия
+            themeToggle.style.animation = 'none';
+            setTimeout(() => {
+                themeToggle.style.animation = 'ripple 1s ease-out';
+            }, 10);
+        });
 
-        themeToggle.addEventListener('click', toggleTheme);
-        mobileThemeToggle.addEventListener('click', toggleTheme);
-
+        // Загружаем сохраненную тему
         const savedTheme = localStorage.getItem('theme') || 'light';
         document.documentElement.setAttribute('data-theme', savedTheme);
         themeToggle.innerHTML = savedTheme === 'light' ? '<i class="fas fa-moon"></i>' : '<i class="fas fa-sun"></i>';
-        mobileThemeToggle.innerHTML = savedTheme === 'light' ? '<i class="fas fa-moon"></i> Сменить тему' : '<i class="fas fa-sun"></i> Сменить тему';
 
+        // ===== МОБИЛЬНОЕ МЕНЮ =====
         mobileMenuBtn.addEventListener('click', () => {
             mobileMenu.classList.add('active');
             mobileMenuBtn.classList.add('active');
             document.body.style.overflow = 'hidden';
         });
 
-        closeMobileMenuBtn.addEventListener('click', () => {
+        closeMobileMenu.addEventListener('click', () => {
             mobileMenu.classList.remove('active');
             mobileMenuBtn.classList.remove('active');
             document.body.style.overflow = 'auto';
         });
 
+        // Закрытие меню при клике на ссылку
         document.querySelectorAll('.mobile-item').forEach(link => {
             link.addEventListener('click', () => {
                 mobileMenu.classList.remove('active');
@@ -1787,12 +2823,21 @@
             });
         });
 
+        // ===== КНОПКА "НАВЕРХ" =====
         window.addEventListener('scroll', () => {
             if (window.pageYOffset > 300) {
                 backToTop.classList.add('visible');
             } else {
                 backToTop.classList.remove('visible');
             }
+            
+            // Параллакс эффект
+            const scrolled = window.pageYOffset;
+            const parallaxElements = document.querySelectorAll('.parallax-bg');
+            parallaxElements.forEach(el => {
+                const speed = el.dataset.speed || 0.5;
+                el.style.transform = `translateY(${scrolled * speed}px)`;
+            });
         });
 
         backToTop.addEventListener('click', () => {
@@ -1800,19 +2845,33 @@
                 top: 0,
                 behavior: 'smooth'
             });
+            
+            // Анимация кнопки
+            backToTop.style.transform = 'scale(0.9)';
+            setTimeout(() => {
+                backToTop.style.transform = 'scale(1)';
+            }, 200);
         });
 
+        // ===== ЧАТ =====
         openChat.addEventListener('click', () => {
             chatWidget.classList.add('active');
             statsData.chats++;
             saveStatsData();
             updateStatsDisplay();
+            
+            // Анимация кнопки
+            openChat.style.transform = 'rotate(360deg)';
+            setTimeout(() => {
+                openChat.style.transform = 'rotate(0deg)';
+            }, 400);
         });
 
         closeChat.addEventListener('click', () => {
             chatWidget.classList.remove('active');
         });
 
+        // Отправка сообщения в чат
         function sendMessage(message, isUser = false) {
             const messageDiv = document.createElement('div');
             messageDiv.className = 'message';
@@ -1823,6 +2882,9 @@
             messageDiv.style.marginBottom = '10px';
             messageDiv.style.maxWidth = isUser ? '80%' : '80%';
             messageDiv.style.marginLeft = isUser ? 'auto' : '0';
+            messageDiv.style.transform = 'scale(0.8)';
+            messageDiv.style.opacity = '0';
+            messageDiv.style.transition = 'all 0.3s ease';
             
             const p = document.createElement('p');
             p.style.margin = '0';
@@ -1838,6 +2900,12 @@
             
             chatBody.appendChild(messageDiv);
             chatBody.scrollTop = chatBody.scrollHeight;
+            
+            // Анимация появления
+            setTimeout(() => {
+                messageDiv.style.transform = 'scale(1)';
+                messageDiv.style.opacity = '1';
+            }, 10);
         }
 
         sendChat.addEventListener('click', () => {
@@ -1846,6 +2914,7 @@
                 sendMessage(message, true);
                 chatInput.value = '';
                 
+                // Автоответ через 1 секунду
                 setTimeout(() => {
                     const responses = [
                         "Отличный вопрос! Наша программа как раз направлена на решение таких проблем.",
@@ -1866,6 +2935,7 @@
             }
         });
 
+        // ===== УВЕДОМЛЕНИЯ =====
         function showNotification(text, type = 'success') {
             notificationText.textContent = text;
             const icon = notification.querySelector('i');
@@ -1891,22 +2961,36 @@
             }, 3000);
         }
 
+        // ===== ФОРМА КОНСУЛЬТАЦИИ =====
         consultationForm.addEventListener('submit', (e) => {
             e.preventDefault();
             
+            // Получаем данные формы
             const formData = new FormData(consultationForm);
             const data = Object.fromEntries(formData);
             
+            // Увеличиваем счетчик заявок
             statsData.leads++;
             statsData.conversion = ((statsData.leads / statsData.visitors) * 100).toFixed(1);
             saveStatsData();
             updateStatsDisplay();
             
+            // Показываем уведомление
             showNotification('Заявка отправлена! Мы свяжемся с вами в течение 24 часов.', 'success');
+            
+            // Анимация формы
+            consultationForm.style.transform = 'scale(0.98)';
+            setTimeout(() => {
+                consultationForm.style.transform = 'scale(1)';
+            }, 200);
+            
+            // Очищаем форму
             consultationForm.reset();
         });
 
+        // ===== АНИМАЦИИ =====
         function initAnimations() {
+            // Анимация при скролле
             const observerOptions = {
                 threshold: 0.1,
                 rootMargin: '0px 0px -50px 0px'
@@ -1921,15 +3005,48 @@
                 });
             }, observerOptions);
 
+            // Наблюдаем за элементами с анимацией
             document.querySelectorAll('.animate-fadeIn').forEach(el => {
                 el.style.opacity = '0';
                 el.style.transform = 'translateY(20px)';
                 el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
                 observer.observe(el);
             });
+            
+            // Анимация для статистики при наведении
+            document.querySelectorAll('.stat-item').forEach(item => {
+                item.addEventListener('mouseenter', () => {
+                    const number = item.querySelector('.stat-number');
+                    const currentValue = parseInt(number.textContent);
+                    if (!isNaN(currentValue)) {
+                        number.style.transform = 'scale(1.2)';
+                        number.style.color = 'var(--accent-color)';
+                    }
+                });
+                
+                item.addEventListener('mouseleave', () => {
+                    const number = item.querySelector('.stat-number');
+                    number.style.transform = 'scale(1)';
+                    number.style.color = '';
+                });
+            });
+            
+            // Анимация для карточек
+            document.querySelectorAll('.approach-card').forEach(card => {
+                card.addEventListener('mouseenter', () => {
+                    card.style.zIndex = '10';
+                });
+                
+                card.addEventListener('mouseleave', () => {
+                    card.style.zIndex = '1';
+                });
+            });
         }
 
+        // ===== АДМИН ПАНЕЛЬ =====
+        // Открытие модального окна входа
         function openAdminLogin() {
+            // Если уже вошли, открываем админ панель напрямую
             if (isAdminLoggedIn) {
                 openAdminPanel();
             } else {
@@ -1938,29 +3055,35 @@
             }
         }
 
+        // Закрытие модального окна входа
         function closeAdminLogin() {
             adminLoginModal.classList.remove('active');
             adminPasswordInput.value = '';
         }
 
+        // Открытие админ панели
         function openAdminPanel() {
             adminPanelModal.classList.add('active');
             
+            // Заполняем поля данными
             document.getElementById('editSiteTitle').value = siteData.siteTitle;
             document.getElementById('editHeroSubtitle').value = siteData.heroSubtitle;
             document.getElementById('editStatClients').value = siteData.statClients;
             document.getElementById('editStatSuccess').value = siteData.statSuccess;
             document.getElementById('editThemeColor').value = siteData.themeColor;
             
-            statsData.visitors += 100;
+            // Увеличиваем счетчик посетителей админки
+            statsData.visitors += 100; // Добавляем как посещение админки
             saveStatsData();
             updateStatsDisplay();
         }
 
+        // Закрытие админ панели
         function closeAdminPanel() {
             adminPanelModal.classList.remove('active');
         }
 
+        // Переключение видимости пароля
         function togglePasswordVisibility() {
             const passwordField = document.getElementById('adminPassword');
             const toggleBtn = document.querySelector('.password-toggle-btn i');
@@ -1974,14 +3097,13 @@
             }
         }
 
+        // Проверка пароля
         function checkAdminPassword() {
             const password = adminPasswordInput.value.trim();
             
             if (password === ADMIN_PASSWORD) {
                 isAdminLoggedIn = true;
                 localStorage.setItem(ADMIN_LOGIN_KEY, 'true');
-                adminStatus.textContent = 'Авторизован';
-                adminStatus.style.color = 'var(--success-color)';
                 
                 closeAdminLogin();
                 openAdminPanel();
@@ -1989,52 +3111,66 @@
             } else {
                 showNotification('Неверный пароль', 'error');
                 adminPasswordInput.style.borderColor = 'var(--danger-color)';
+                adminPasswordInput.style.animation = 'shake 0.5s';
+                setTimeout(() => {
+                    adminPasswordInput.style.animation = '';
+                }, 500);
             }
             
             adminPasswordInput.value = '';
         }
 
+        // Проверка входа администратора
         function checkAdminLogin() {
             const savedLogin = localStorage.getItem(ADMIN_LOGIN_KEY);
             if (savedLogin === 'true') {
                 isAdminLoggedIn = true;
-                adminStatus.textContent = 'Авторизован';
-                adminStatus.style.color = 'var(--success-color)';
-            } else {
-                isAdminLoggedIn = false;
-                adminStatus.textContent = 'Не авторизован';
-                adminStatus.style.color = 'var(--text-light)';
             }
         }
 
+        // Выход из админ панели
         function logoutAdmin() {
             isAdminLoggedIn = false;
             localStorage.removeItem(ADMIN_LOGIN_KEY);
-            adminStatus.textContent = 'Не авторизован';
-            adminStatus.style.color = 'var(--text-light)';
             
             closeAdminPanel();
             showNotification('Вы вышли из админ-панели', 'info');
         }
 
+        // Сохранение изменений из админки
         function saveAdminChanges() {
+            // Получаем новые значения
             siteData.siteTitle = document.getElementById('editSiteTitle').value;
             siteData.heroSubtitle = document.getElementById('editHeroSubtitle').value;
             siteData.statClients = parseInt(document.getElementById('editStatClients').value) || 0;
             siteData.statSuccess = parseInt(document.getElementById('editStatSuccess').value) || 0;
             siteData.themeColor = document.getElementById('editThemeColor').value;
             
+            // Применяем изменения на сайте
             document.querySelector('.logo-text').textContent = siteData.siteTitle;
             document.getElementById('heroSubtitle').textContent = siteData.heroSubtitle;
             document.getElementById('statClients').textContent = siteData.statClients + '+';
             document.getElementById('statSuccess').textContent = siteData.statSuccess + '%';
             
+            // Применяем цвет темы
             applyThemeColor(siteData.themeColor);
             
+            // Сохраняем в localStorage
             saveSiteData();
+            
+            // Показываем уведомление
             showNotification('Изменения сохранены успешно', 'success');
+            
+            // Анимация сохранения
+            const saveBtn = document.querySelector('.admin-btn');
+            const originalText = saveBtn.innerHTML;
+            saveBtn.innerHTML = '<i class="fas fa-check"></i> Сохранено!';
+            setTimeout(() => {
+                saveBtn.innerHTML = originalText;
+            }, 2000);
         }
 
+        // Сброс изменений
         function resetAdminChanges() {
             siteData = {
                 siteTitle: "EatFit",
@@ -2044,6 +3180,7 @@
                 themeColor: "green"
             };
             
+            // Заполняем поля
             document.getElementById('editSiteTitle').value = siteData.siteTitle;
             document.getElementById('editHeroSubtitle').value = siteData.heroSubtitle;
             document.getElementById('editStatClients').value = siteData.statClients;
@@ -2053,6 +3190,7 @@
             showNotification('Изменения сброшены', 'info');
         }
 
+        // Применение цвета темы
         function applyThemeColor(color) {
             const root = document.documentElement;
             
@@ -2069,12 +3207,13 @@
                     root.style.setProperty('--primary-color', '#8b5cf6');
                     root.style.setProperty('--primary-dark', '#7c3aed');
                     break;
-                default:
+                default: // green
                     root.style.setProperty('--primary-color', '#10b981');
                     root.style.setProperty('--primary-dark', '#059669');
             }
         }
 
+        // Обновление статистики в админке
         function updateStatsDisplay() {
             document.getElementById('adminVisitors').textContent = statsData.visitors.toLocaleString();
             document.getElementById('adminLeads').textContent = statsData.leads;
@@ -2082,6 +3221,7 @@
             document.getElementById('adminChats').textContent = statsData.chats;
         }
 
+        // Экспорт данных
         function exportData() {
             const data = {
                 siteData: siteData,
@@ -2102,6 +3242,7 @@
             showNotification('Данные экспортированы успешно', 'success');
         }
 
+        // Очистка данных
         function clearData() {
             if (confirm('Вы уверены, что хотите очистить статистику? Это действие нельзя отменить.')) {
                 statsData = {
@@ -2117,6 +3258,20 @@
             }
         }
 
+        // Смена пароля
+        function changePassword() {
+            const newPassword = document.getElementById('newAdminPassword').value.trim();
+            
+            if (newPassword.length >= 6) {
+                // В реальном приложении здесь был бы запрос на сервер
+                showNotification('Пароль успешно изменен! Новый пароль: ' + newPassword, 'success');
+                document.getElementById('newAdminPassword').value = '';
+            } else {
+                showNotification('Пароль должен содержать минимум 6 символов', 'error');
+            }
+        }
+
+        // ===== LOCALSTORAGE ФУНКЦИИ =====
         function saveSiteData() {
             localStorage.setItem(SITE_DATA_KEY, JSON.stringify(siteData));
         }
@@ -2126,6 +3281,7 @@
             if (savedData) {
                 siteData = JSON.parse(savedData);
                 
+                // Применяем загруженные данные
                 document.querySelector('.logo-text').textContent = siteData.siteTitle;
                 document.getElementById('heroSubtitle').textContent = siteData.heroSubtitle;
                 document.getElementById('statClients').textContent = siteData.statClients + '+';
@@ -2143,6 +3299,7 @@
             if (savedData) {
                 statsData = JSON.parse(savedData);
             } else {
+                // Начальные значения
                 statsData = {
                     visitors: 1247,
                     leads: 84,
@@ -2152,6 +3309,31 @@
                 saveStatsData();
             }
         }
+
+        // ===== ПАРАЛЛАКС ЭФФЕКТ =====
+        document.addEventListener('mousemove', (e) => {
+            const mouseX = e.clientX / window.innerWidth;
+            const mouseY = e.clientY / window.innerHeight;
+            
+            document.querySelectorAll('.floating-element').forEach((el, index) => {
+                const speed = 0.5 + (index * 0.1);
+                const x = (mouseX * 20 * speed) - (10 * speed);
+                const y = (mouseY * 20 * speed) - (10 * speed);
+                
+                el.style.transform = `translate(${x}px, ${y}px) rotate(${mouseX * 20}deg)`;
+            });
+        });
+
+        // Добавляем анимацию shake для неверного пароля
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes shake {
+                0%, 100% { transform: translateX(0); }
+                10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+                20%, 40%, 60%, 80% { transform: translateX(5px); }
+            }
+        `;
+        document.head.appendChild(style);
     </script>
 </body>
 </html>
